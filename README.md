@@ -1,18 +1,18 @@
-🎯 MiniProjet Python - Dashboard Interactif
+### 🎯 MiniProjet Python - Dashboard Interactif
 
-📖 Introduction
+## 📖 Introduction
 
 Ce projet vise à créer un dashboard interactif en Python basé sur des données Open Data.
 Il permet d’explorer, de visualiser et d’analyser des données d’intérêt public à l’aide de graphiques dynamiques et intuitifs.
 
-📋 User Guide
+## 📋 User Guide
 
-🛠️ Prérequis
+# 🛠️ Prérequis
 
 	•	Python 3.8 ou plus récent
 	•	Les dépendances listées dans requirements.txt
 
-🚀 Installation
+# 🚀 Installation
 
 	1.	Clonez le dépôt Git :
 
@@ -42,7 +42,7 @@ python main.py
 	2.	Ouvrez un navigateur et accédez à l’URL suivante :
 http://127.0.0.1:8050/
 
-📂 Data
+## 📂 Data
 
 📥 Sources des données
 
@@ -59,7 +59,7 @@ http://127.0.0.1:8050/
 	•	get_data.py : Télécharge les données dans data/raw/
 	•	clean_data.py : Nettoie les données et les place dans data/cleaned/
 
-🛠️ Developer Guide
+## 🛠️ Developer Guide
 
 📂 Structure du projet
 
@@ -93,13 +93,13 @@ graph TD;
 	2.	Ajoutez la logique ou les graphiques nécessaires.
 	3.	Intégrez la page ou le graphique dans le layout principal (main.py).
 
-📊 Rapport
+## 📊 Rapport
 
 Cette section mettra en avant :
 	•	Les tendances observées dans les données.
 	•	Les points clés des visualisations interactives.
 
-📜 Copyright
+## 📜 Copyright
 
 Ce projet est sous licence libre.
 Tout emprunt ou code externe est crédité ci-dessous :
