@@ -1,5 +1,3 @@
-Voici une version enrichie du README avec l’intégration de Mermaid pour afficher l’architecture du projet et un formatage amélioré pour une meilleure lisibilité :
-
 🎯 MiniProjet Python - Dashboard Interactif
 
 📖 Introduction
@@ -18,7 +16,9 @@ Il permet d’explorer, de visualiser et d’analyser des données d’intérêt
 
 	1.	Clonez le dépôt Git :
 
-git clone <https://github.com/Zedoww/MiniProjet.git>
+git clone https://github.com/Zedoww/MiniProjet.git
+cd MiniProjet
+
 
 	2.	Créez un environnement virtuel (recommandé) :
 
@@ -85,7 +85,9 @@ graph TD;
     G --> G1[raw/];
     G --> G2[cleaned/];
 
-(ajouter le graph)
+(N’oubliez pas d’ajouter le graphique généré par Mermaid.)
+
+➕ Ajouter une page ou un graphique
 
 	1.	Créez un fichier dans src/pages/ ou src/components/.
 	2.	Ajoutez la logique ou les graphiques nécessaires.
@@ -102,3 +104,5 @@ Cette section mettra en avant :
 Ce projet est sous licence libre.
 Tout emprunt ou code externe est crédité ci-dessous :
 	•	[Expliquer les emprunts éventuels et leurs sources]
+
+	Astuce : Pour visualiser le diagramme Mermaid, vous pouvez utiliser l’éditeur en ligne Mermaid Live Editor.
