@@ -44,17 +44,17 @@ http://127.0.0.1:8050/
 
 ## 📂 Data
 
-## 📥 Sources des données
+### 📥 Sources des données
 
 	•	Description : Provenance et description des jeux de données Open Data utilisés.
 	•	Lien : Lien vers les données Open Data
 
-## 📊 Structure des données
+### 📊 Structure des données
 
 	•	Fichiers bruts : stockés dans data/raw/
 	•	Fichiers nettoyés : stockés dans data/cleaned/
 
-## 📜 Scripts associés
+### 📜 Scripts associés
 
 	•	get_data.py : Télécharge les données dans data/raw/
 	•	clean_data.py : Nettoie les données et les place dans data/cleaned/
