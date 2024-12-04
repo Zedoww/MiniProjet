@@ -37,7 +37,6 @@ def clean_weather_data(input_file, output_file):
     df_cleaned.to_csv(output_file, sep=";", index=False)
     print(f"Fichier nettoyé enregistré dans : {output_file}")
 
-# Exemple d'utilisation
 if __name__ == "__main__":
     raw_file = "data/raw/donnees-synop-essentielles-omm.csv"
     cleaned_file = "data/cleaned/cleaned_data.csv"

@@ -1,4 +1,4 @@
-from dash import Dash, dcc, html
+from dash import dcc, html
 import pandas as pd
 
 # Acces data
