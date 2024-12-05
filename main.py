@@ -1,11 +1,4 @@
-from dash import Dash
-from src.pages.home import render_home
-
-# Initialiser l'application Dash
-app = Dash(__name__)
-
-# Définir la mise en page avec le contenu du fichier home.py
-app.layout = render_home()
+from src.dashboard import app
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8051)
