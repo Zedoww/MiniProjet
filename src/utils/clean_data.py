@@ -10,6 +10,7 @@ def clean_raw_data(input_path, output_path):
     # Garder uniquement les colonnes spécifiées
     colonnes_conservees = [
         'Date',
+        'Température',
         'Température maximale sur 12 heures',
         'Température minimale sur 12 heures',
         'Température maximale sur 24 heures',

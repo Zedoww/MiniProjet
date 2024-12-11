@@ -42,6 +42,12 @@ app.layout = html.Div([
         initial_visible_month=min_date,
         style={'marginBottom': '30px', 'width': '100%', 'display':'flex', 'justify-content': 'center'}
 ),
+dcc.Dropdown(
+    id='city-dropdown',
+    options=[{'label': city, 'value': city} for city in data['communes (name)'].unique()],
+    value=data['communes (name)'].unique()[0],  # Ville par défaut
+    style={'marginBottom': '30px'}
+),
     html.Div([
         html.Div([
             html.H3("Max Temp", style={'textAlign': 'center'}),
@@ -74,23 +80,40 @@ app.layout = html.Div([
         Output('temp-graph', 'figure'),
         Output('precipitation-bar', 'figure')
     ],
-    [Input('date-picker-range', 'start_date'),
-     Input('date-picker-range', 'end_date')]
+    [
+        Input('date-picker-range', 'start_date'),
+        Input('date-picker-range', 'end_date'),
+        Input('city-dropdown', 'value')  # Nouvelle entrée pour la ville
+    ]
 )
-def update_dashboard(start_date, end_date):
-    # Convertir start_date et end_date en datetime.date avec parse
+def update_dashboard(start_date, end_date, selected_city):
+    # Convertir les dates en objets datetime
     start_date = parse(start_date).date()
     end_date = parse(end_date).date()
 
-    # Filtrer les données
-    filtered_data = data_daily[(data_daily['Date'] >= start_date) & (data_daily['Date'] <= end_date)]
-    
-    # Calculer les KPI
-    max_temp = round(filtered_data['Température maximale sur 24 heures'].max()-273, 1)
-    min_temp = round(filtered_data['Température minimale sur 24 heures'].min()-273, 1)
-    total_precipitation = round(filtered_data['Précipitations dans les 24 dernières heures'].sum(), 1)
-    avg_wind_speed = round(filtered_data['Vitesse du vent moyen 10 mn'].mean(), 1)
-    
+    # Filtrer les données pour la ville sélectionnée
+    city_data = data[data['communes (name)'] == selected_city]
+
+    # Utiliser la colonne Température comme base si les données 24h sont manquantes
+    city_data['Température maximale sur 24 heures'] = city_data['Température maximale sur 24 heures'].fillna(city_data['Température'])
+    city_data['Température minimale sur 24 heures'] = city_data['Température minimale sur 24 heures'].fillna(city_data['Température'])
+
+    # Regrouper les données par jour
+    city_data['Date'] = pd.to_datetime(city_data['Date'])
+    city_data_daily = city_data.groupby(city_data['Date'].dt.date).mean(numeric_only=True).reset_index()
+
+    # Filtrer les données pour la plage de dates sélectionnée
+    filtered_data = city_data_daily[(city_data_daily['Date'] >= start_date) & (city_data_daily['Date'] <= end_date)]
+
+    if filtered_data.empty:
+        return "Données indisponibles", "Données indisponibles", "Données indisponibles", "Données indisponibles", {}, {}
+
+    # Calcul des KPI
+    max_temp = round(filtered_data['Température maximale sur 24 heures'].max() - 273.15, 1)
+    min_temp = round(filtered_data['Température minimale sur 24 heures'].min() - 273.15, 1)
+    total_precipitation = round(filtered_data['Précipitations dans les 24 dernières heures'].sum(), 1) if 'Précipitations dans les 24 dernières heures' in filtered_data else "Données indisponibles"
+    avg_wind_speed = round(filtered_data['Vitesse du vent moyen 10 mn'].mean(), 1) if 'Vitesse du vent moyen 10 mn' in filtered_data else "Données indisponibles"
+
     # Créer les graphiques
     temp_fig = {
         'data': [
@@ -98,22 +121,29 @@ def update_dashboard(start_date, end_date):
             {'x': filtered_data['Date'], 'y': filtered_data['Température minimale sur 24 heures'], 'type': 'line', 'name': 'Min Temp'}
         ],
         'layout': {
-            'title': 'Temperature Over Time',
+            'title': 'Températures au fil du temps',
             'xaxis': {'title': 'Date'},
-            'yaxis': {'title': 'Temperature (°C)'}
+            'yaxis': {'title': 'Température (°C)'}
         }
     }
-    
+
     precipitation_fig = {
         'data': [
-            {'x': filtered_data['Date'], 'y': filtered_data['Précipitations dans les 24 dernières heures'].cumsum(), 'type': 'line', 'name': 'Cumulative Precipitation'}
+            {'x': filtered_data['Date'], 'y': filtered_data['Précipitations dans les 24 dernières heures'].cumsum(), 'type': 'line', 'name': 'Précipitations cumulées'}
         ],
         'layout': {
-            'title': 'Cumulative Precipitation Over Time',
+            'title': 'Précipitations cumulées au fil du temps',
             'xaxis': {'title': 'Date'},
-            'yaxis': {'title': 'Precipitation (mm)'}
+            'yaxis': {'title': 'Précipitations (mm)'}
         }
     }
-    
-    return f"{max_temp}°C", f"{min_temp}°C", f"{total_precipitation} mm", f"{avg_wind_speed} km/h", temp_fig, precipitation_fig
 
+    # Retourner les KPI et les graphiques
+    return (
+        f"{max_temp}°C",
+        f"{min_temp}°C",
+        f"{total_precipitation} mm",
+        f"{avg_wind_speed} km/h",
+        temp_fig,
+        precipitation_fig
+    )
