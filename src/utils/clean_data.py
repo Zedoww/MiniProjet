@@ -25,7 +25,9 @@ def clean_raw_data(input_path, output_path):
         'Latitude',
         'Longitude',
         'communes (name)',
-        'department (code)'
+        'department (code)',
+        'region (code)',
+        
     ]
 
     # Sélectionner uniquement les colonnes disponibles
