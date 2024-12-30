@@ -40,3 +40,4 @@ from .callbacks.callbacks_figures import register_figures_callbacks
 
 register_general_callbacks(app)
 register_figures_callbacks(app, data, france_regions_geojson,france_departements_geojson)
+

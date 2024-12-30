@@ -27,7 +27,13 @@ def serve_layout(theme, city_options, min_date, max_date):
                     ),
                     html.P(
                         "Une vue sobre et moderne des données météorologiques historiques.",
-                        style={'textAlign': 'center', 'color': theme['secondary_text'], 'fontSize': '14px', 'margin': '0', 'paddingBottom': '10px'}
+                        style={
+                            'textAlign': 'center',
+                            'color': theme['secondary_text'],
+                            'fontSize': '14px',
+                            'margin': '0',
+                            'paddingBottom': '10px'
+                        }
                     ),
                 ], style={
                     'backgroundColor': theme['header_bg'],
@@ -39,33 +45,55 @@ def serve_layout(theme, city_options, min_date, max_date):
 
                 # Filtres de date
                 html.Div([
-                dcc.DatePickerRange(
-                    id='date-picker-range',
-                    start_date=min_date,
-                    end_date=max_date,
-                    min_date_allowed=min_date,
-                    max_date_allowed=max_date,
-                    display_format='YYYY-MM-DD',
-                    style={
-                        'width': '100%',
-                        'borderRadius': '8px',
-                        'padding': '10px',
-                        'fontSize': '16px',
-                        'backgroundColor': theme['card_background'],  # Fond sombre basé sur le thème
-                        'color': theme['text_color'],                # Couleur du texte
-                        'border': f'1px solid {theme["grid_color"]}', # Bordure adaptée au thème
-                        'boxShadow': theme['box_shadow'],            # Ombre douce
-                        'outline': 'none'                            # Supprime les bordures au focus
-                    }
-                )
-            ], style={
-                'flex': '1',
-                'padding': '10px',
-                'backgroundColor': theme['card_background'],  # Fond sombre pour le conteneur
-                'boxShadow': theme['box_shadow'],             # Ombre pour le conteneur
-                'borderRadius': '14px',
-                'marginBottom': '20px'
-            }),
+                    dcc.DatePickerRange(
+                        id='date-picker-range',
+                        start_date=min_date,
+                        end_date=max_date,
+                        min_date_allowed=min_date,
+                        max_date_allowed=max_date,
+                        display_format='YYYY-MM-DD',
+                        style={
+                            'width': '100%',
+                            'borderRadius': '8px',
+                            'padding': '10px',
+                            'fontSize': '16px',
+                            'backgroundColor': theme['card_background'],
+                            'color': theme['text_color'],
+                            'border': f'1px solid {theme["grid_color"]}',
+                            'boxShadow': theme['box_shadow'],
+                            'outline': 'none'
+                        }
+                    )
+                ], style={
+                    'flex': '1',
+                    'padding': '10px',
+                    'backgroundColor': theme['card_background'],
+                    'boxShadow': theme['box_shadow'],
+                    'borderRadius': '14px',
+                    'marginBottom': '20px'
+                }),
+
+                # Dropdown pour le style de la carte
+                html.Div([
+                    dcc.Dropdown(
+                        id='map-style-dropdown',
+                        options=[
+                            {'label': 'Carto Dark', 'value': 'carto-dark'},
+                            {'label': 'Carto Positron', 'value': 'carto-positron'}
+                        ],
+                        value='carto-positron',
+                        style={
+                            'borderRadius': '8px',
+                            'padding': '10px',
+                            'backgroundColor': theme['card_background'],
+                            'color': theme['text_color'],
+                            'boxShadow': theme['box_shadow']
+                        }
+                    )
+                ], style={
+                    'marginBottom': '20px',
+                    'padding': '10px',
+                }),
 
                 # KPI Cards
                 kpi_cards(theme),

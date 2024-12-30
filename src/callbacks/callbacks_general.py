@@ -2,31 +2,33 @@ from dash.dependencies import Input, Output
 from src.layout.themes import light_theme, dark_theme
 from dash import dcc, html
 
+from dash.dependencies import Input, Output
+from src.layout.themes import light_theme, dark_theme
+from dash import dcc, html
+
 def register_general_callbacks(app):
 
     @app.callback(
-        Output('current-theme', 'data'),
-        Input('theme-switch', 'value')
+        [
+            Output('current-theme', 'data'),
+            Output('page-content', 'children'),
+            Output('map-style-dropdown', 'value'),
+        ],
+        [
+            Input('theme-switch', 'value'),
+            Input('current-theme', 'data')
+        ]
     )
-    def switch_theme(selected_theme):
-        return selected_theme
-
-    @app.callback(
-        Output('page-content', 'children'),
-        Input('current-theme', 'data')
-    )
-    def update_page(theme_value):
+    def handle_theme_and_update(selected_theme, current_theme):
         from ..dashboard import serve_app_layout
-        # On rappelle la fonction pour régénérer la mise en page avec le thème courant
-        return serve_app_layout(theme_value)
-    @app.callback(
-    [
-        Output('current-theme', 'data'),
-        Output('map-style-dropdown', 'value'),
-    ],
-    Input('theme-switch', 'value')
-)
-    def switch_theme_and_map_style(selected_theme):
-        map_style = 'carto-dark' if selected_theme == 'dark' else 'carto-positron'
-        return selected_theme, map_style
-    
+
+        # Determine if theme needs to be updated
+        theme = selected_theme if selected_theme != current_theme else current_theme
+
+        # Adjust map style based on theme
+        map_style = 'carto-dark' if theme == 'dark' else 'carto-positron'
+
+        # Generate the updated page content
+        page_content = serve_app_layout(theme)
+
+        return theme, page_content, map_style
