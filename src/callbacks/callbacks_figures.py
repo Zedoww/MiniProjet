@@ -33,20 +33,31 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
         # Filtrage par ville
         city_data = data.loc[data['communes (name)'] == selected_city].copy()
 
+        # Remplir les valeurs manquantes
         city_data['Température maximale sur 24 heures'] = city_data['Température maximale sur 24 heures'].fillna(city_data['Température'])
         city_data['Température minimale sur 24 heures'] = city_data['Température minimale sur 24 heures'].fillna(city_data['Température'])
+        city_data['Précipitations dans les 24 dernières heures'] = city_data['Précipitations dans les 24 dernières heures'].fillna(0)
 
-        city_data_daily = city_data.groupby(city_data['Date'].dt.date).mean(numeric_only=True).reset_index()
+        # Regroupement par date avec agrégations spécifiques
+        city_data_daily = city_data.groupby(city_data['Date'].dt.date).agg({
+            'Température maximale sur 24 heures': 'max',
+            'Température minimale sur 24 heures': 'min',
+            'Précipitations dans les 24 dernières heures': 'mean'  # Moyenne des précipitations
+        }).reset_index()
+
+        # Filtrer les données par plage de dates
         filtered_data = city_data_daily[(city_data_daily['Date'] >= start_date) & (city_data_daily['Date'] <= end_date)]
 
         if filtered_data.empty:
             return "N/A", "N/A", "N/A", "N/A", {}, {}, {}
 
+        # Calcul des valeurs
         max_temp = round(filtered_data['Température maximale sur 24 heures'].max() - 273.15, 1)
         min_temp = round(filtered_data['Température minimale sur 24 heures'].min() - 273.15, 1)
-        total_precipitation = round(filtered_data['Précipitations dans les 24 dernières heures'].fillna(0).sum(), 1)
-        precipitation_days = len(filtered_data[filtered_data['Précipitations dans les 24 dernières heures'].fillna(0) > 0])
+        total_precipitation = round(filtered_data['Précipitations dans les 24 dernières heures'].sum(), 1)
+        precipitation_days = len(filtered_data[filtered_data['Précipitations dans les 24 dernières heures'] > 0])
 
+        # Définir le thème
         theme = dark_theme if theme_value == 'dark' else light_theme
 
         # Graphiques
@@ -69,7 +80,7 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             'Température': 'mean',
             'Précipitations dans les 24 dernières heures': 'mean'
         })
-        
+
         map_fig = create_map_figure(region_or_dept_data, geojson, map_metric, theme, feature_id_key)
 
         return (

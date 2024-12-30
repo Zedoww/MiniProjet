@@ -9,8 +9,9 @@ data = load_cleaned_data()
 france_regions_geojson = load_regions_geojson("data/regions.geojson")
 france_departements_geojson = load_departements_geojson("data/departements.geojson")
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, assets_folder='/assets', external_stylesheets=['/assets/style.css'],) 
 app.title = "Tableau de bord historique météo"
+
 
 min_date = data['Date'].min().date()
 max_date = data['Date'].max().date()

@@ -49,7 +49,7 @@ def create_precipitation_bar(filtered_data, theme):
 def create_map_figure(data, geojson, map_metric, theme, featureidkey='properties.code'):
     if map_metric == 'temp':
         z = data['Température'] - 273.15
-        colorscale = 'RdYlBu_r'
+        colorscale = 'RdYlBu_r'  #bluered ou Sunset_r ou RdYlBu_r pour d'autres couleurs
         title_map = "Température moyenne (°C)"
         hovertemplate = "<b>%{location}</b><br>Temp. moy: %{z:.1f}°C<extra></extra>"
         color_col = 'Température'
@@ -60,14 +60,16 @@ def create_map_figure(data, geojson, map_metric, theme, featureidkey='properties
         hovertemplate = "<b>%{location}</b><br>Précipitations moy: %{z:.1f} mm<extra></extra>"
         color_col = 'Précipitations'
 
+    mapbox_style = 'carto-darkmatter' if theme['name'] == 'dark' else 'carto-positron'
+
     fig = px.choropleth_mapbox(
         data,
         geojson=geojson,
-        locations=data.columns[0],  # la première colonne devrait être 'region (code)' ou 'department (code)'
+        locations=data.columns[0],
         featureidkey=featureidkey,
         color=z,
         color_continuous_scale=colorscale,
-        mapbox_style='carto-positron',
+        mapbox_style=mapbox_style,
         zoom=4.5,
         center={"lat": 46.5, "lon": 2},
         opacity=0.7,
@@ -89,4 +91,3 @@ def create_map_figure(data, geojson, map_metric, theme, featureidkey='properties
     ))
 
     return fig
-

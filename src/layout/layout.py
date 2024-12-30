@@ -39,31 +39,33 @@ def serve_layout(theme, city_options, min_date, max_date):
 
                 # Filtres de date
                 html.Div([
-                    dcc.DatePickerRange(
-                        id='date-picker-range',
-                        start_date=min_date,
-                        end_date=max_date,
-                        min_date_allowed=min_date,
-                        max_date_allowed=max_date,
-                        display_format='YYYY-MM-DD',
-                        style={
-                            'width': '100%',
-                            'borderRadius': '8px',
-                            'padding': '10px',
-                            'fontSize': '16px',
-                            'backgroundColor': theme['card_background'],
-                            'border': f'1px solid {theme["grid_color"]}',
-                            'color': theme['text_color']
-                        }
-                    )
-                ], style={
-                    'flex': '1',
-                    'padding': '10px',
-                    'backgroundColor': theme['card_background'],
-                    'boxShadow': theme['box_shadow'],
-                    'borderRadius': '14px',
-                    'marginBottom': '20px'
-                }),
+                dcc.DatePickerRange(
+                    id='date-picker-range',
+                    start_date=min_date,
+                    end_date=max_date,
+                    min_date_allowed=min_date,
+                    max_date_allowed=max_date,
+                    display_format='YYYY-MM-DD',
+                    style={
+                        'width': '100%',
+                        'borderRadius': '8px',
+                        'padding': '10px',
+                        'fontSize': '16px',
+                        'backgroundColor': theme['card_background'],  # Fond sombre basé sur le thème
+                        'color': theme['text_color'],                # Couleur du texte
+                        'border': f'1px solid {theme["grid_color"]}', # Bordure adaptée au thème
+                        'boxShadow': theme['box_shadow'],            # Ombre douce
+                        'outline': 'none'                            # Supprime les bordures au focus
+                    }
+                )
+            ], style={
+                'flex': '1',
+                'padding': '10px',
+                'backgroundColor': theme['card_background'],  # Fond sombre pour le conteneur
+                'boxShadow': theme['box_shadow'],             # Ombre pour le conteneur
+                'borderRadius': '14px',
+                'marginBottom': '20px'
+            }),
 
                 # KPI Cards
                 kpi_cards(theme),

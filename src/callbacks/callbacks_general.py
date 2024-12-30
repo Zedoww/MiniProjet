@@ -19,3 +19,14 @@ def register_general_callbacks(app):
         from ..dashboard import serve_app_layout
         # On rappelle la fonction pour régénérer la mise en page avec le thème courant
         return serve_app_layout(theme_value)
+    @app.callback(
+    [
+        Output('current-theme', 'data'),
+        Output('map-style-dropdown', 'value'),
+    ],
+    Input('theme-switch', 'value')
+)
+    def switch_theme_and_map_style(selected_theme):
+        map_style = 'carto-dark' if selected_theme == 'dark' else 'carto-positron'
+        return selected_theme, map_style
+    
