@@ -1,6 +1,7 @@
 import dash
 from dash import html, dcc
 from datetime import datetime
+import dash_bootstrap_components as dbc
 from .utils.data_loader import load_cleaned_data, load_regions_geojson, load_departements_geojson
 from .layout.themes import light_theme, dark_theme
 from .layout.layout import serve_layout
@@ -9,7 +10,7 @@ data = load_cleaned_data()
 france_regions_geojson = load_regions_geojson("data/regions.geojson")
 france_departements_geojson = load_departements_geojson("data/departements.geojson")
 
-app = dash.Dash(__name__, assets_folder='/assets', external_stylesheets=['/assets/style.css'],) 
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Tableau de bord historique météo"
 
 
