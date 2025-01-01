@@ -67,8 +67,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                 ], style={
                     'flex': '1',
                     'padding': '10px',
-                    'backgroundColor': theme['card_background'],
-                    'boxShadow': theme['box_shadow'],
                     'borderRadius': '14px',
                     'marginBottom': '20px'
                 }),

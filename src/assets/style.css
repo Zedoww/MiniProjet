@@ -1,0 +1,60 @@
+Css ok
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+.DateRangePickerInput {
+    background-color: #000000; /*ici mettre en fonciton du theme*/
+    display: inline-block;
+}
+.DayPickerNavigation_button__default {
+    border: 1px solid #000000; /*ici mettre en fonciton du theme*/
+    background-color: #100909; /*ici mettre en fonciton du theme*/
+    color: #757575;
+}
+
+.DateInput_input {
+    font-weight: 200;
+    font-size: 19px;
+    line-height: 24px;
+    color: #484848;
+    background-color: #000000; /*ici mettre en fonciton du theme*/
+    width: 100%;
+    padding: 11px 11px 9px;
+    border: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 2px solid transparent;
+    border-left: 0;
+    border-radius: 0;
+}
+
+.CalendarDay__selected_span {
+    background: #66e2da; /*ici mettre en fonciton du theme*/
+    border: 1px double #33dacd; /*ici mettre en fonciton du theme*/
+    color: #fff; /*ici mettre en fonciton du theme*/
+}
+
+.CalendarMonth {
+    background: #000000; /*ici mettre en fonciton du theme*/
+    text-align: center;
+    vertical-align: top;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.CalendarMonthGrid {
+    background: #000000; /*ici mettre en fonciton du theme*/
+    text-align: left;
+    z-index: 0;
+}
+.DayPicker {
+    background: #000000; /*ici mettre en fonciton du theme*/
+    position: relative;
+    text-align: left;
+}
+
