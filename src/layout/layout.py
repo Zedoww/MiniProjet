@@ -52,45 +52,12 @@ def serve_layout(theme, city_options, min_date, max_date):
                         min_date_allowed=min_date,
                         max_date_allowed=max_date,
                         display_format='YYYY-MM-DD',
-                        style={
-                            'width': '100%',
-                            'borderRadius': '8px',
-                            'padding': '10px',
-                            'fontSize': '16px',
-                            'backgroundColor': theme['card_background'],
-                            'color': theme['text_color'],
-                            'border': f'1px solid {theme["grid_color"]}',
-                            'boxShadow': theme['box_shadow'],
-                            'outline': 'none'
-                        }
                     )
                 ], style={
                     'flex': '1',
                     'padding': '10px',
                     'borderRadius': '14px',
                     'marginBottom': '20px'
-                }),
-
-                # Dropdown pour le style de la carte
-                html.Div([
-                    dcc.Dropdown(
-                        id='map-style-dropdown',
-                        options=[
-                            {'label': 'Carto Dark', 'value': 'carto-dark'},
-                            {'label': 'Carto Positron', 'value': 'carto-positron'}
-                        ],
-                        value='carto-positron',
-                        style={
-                            'borderRadius': '8px',
-                            'padding': '10px',
-                            'backgroundColor': theme['card_background'],
-                            'color': theme['text_color'],
-                            'boxShadow': theme['box_shadow']
-                        }
-                    )
-                ], style={
-                    'marginBottom': '20px',
-                    'padding': '10px',
                 }),
 
                 # KPI Cards

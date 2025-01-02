@@ -12,7 +12,6 @@ def register_general_callbacks(app):
         [
             Output('current-theme', 'data'),
             Output('page-content', 'children'),
-            Output('map-style-dropdown', 'value'),
         ],
         [
             Input('theme-switch', 'value'),
@@ -31,4 +30,5 @@ def register_general_callbacks(app):
         # Generate the updated page content
         page_content = serve_app_layout(theme)
 
-        return theme, page_content, map_style
+        return theme, page_content
+    
