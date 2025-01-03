@@ -2,6 +2,11 @@ from dash import html, dcc
 from .themes import light_theme, dark_theme
 from .sidebar import sidebar
 from .kpi_cards import kpi_cards
+import pandas as pd
+from datetime import date
+import locale
+
+locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
 
 def serve_layout(theme, city_options, min_date, max_date):
     return html.Div([
@@ -45,19 +50,31 @@ def serve_layout(theme, city_options, min_date, max_date):
 
                 # Filtres de date
                 html.Div([
-                    dcc.DatePickerRange(
-                        id='date-picker-range',
-                        start_date=min_date,
-                        end_date=max_date,
-                        min_date_allowed=min_date,
-                        max_date_allowed=max_date,
-                        display_format='YYYY-MM-DD',
+                    dcc.RangeSlider(
+                        id='date-range-slider',
+                        min=min_date.toordinal(),
+                        max=max_date.toordinal(),
+                        value=[min_date.toordinal(), max_date.toordinal()],
+                        marks={
+                            d.toordinal(): d.strftime('%b').capitalize()
+                            for d in pd.date_range(min_date, max_date, freq='ME')
+                        },
+                        tooltip={
+                            "placement": "bottom",
+                            "always_visible": True,
+                            "template": "{value}",
+                            "transform": "ordinalToDate"
+                        },
+                        included=True,
+                        updatemode='drag',
+                        className="custom-range-slider" 
                     )
                 ], style={
-                    'flex': '1',
+                    'margin': '10px 0',
                     'padding': '10px',
                     'borderRadius': '14px',
-                    'marginBottom': '20px'
+                    'backgroundColor': theme['card_background'],
+                    'boxShadow': theme['box_shadow']
                 }),
 
                 # KPI Cards

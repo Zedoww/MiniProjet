@@ -9,49 +9,14 @@ body{
     box-sizing: border-box;
 }
 
-/* Styles pour le thème sombre */
-/* Styles généraux pour le DatePicker en thème sombre */
-.DateRangePicker, 
-.DateRangePicker .DateRangePickerInput, 
-.DateRangePicker .DateRangePicker_picker, 
-.DateRangePicker .CalendarMonthGrid, 
-.DateRangePicker .CalendarDay,
-.DateRangePicker .DateInput,
-.DateRangePicker .DateInput_input {
-    background-color: #333 !important; /* Fond sombre pour le thème sombre */
-    color: #fff !important; /* Texte blanc pour le thème sombre */
-}
-
-.DateRangePicker .CalendarDay__selected, 
-.DateRangePicker .CalendarDay__hovered_span, 
-.DateRangePicker .CalendarDay__selected_span {
-    background-color: #0074d9 !important; /* Bleu pour les jours sélectionnés */
-    color: #fff !important;
-}
-
-/* Styles généraux pour le thème clair */
-.html--light .DateRangePicker, 
-.html--light .DateRangePicker .DateRangePickerInput, 
-.html--light .DateRangePicker .DateRangePicker_picker, 
-.html--light .DateRangePicker .CalendarMonthGrid, 
-.html--light .DateRangePicker .CalendarDay,
-.html--light .DateRangePicker .DateInput,
-.html--light .DateRangePicker .DateInput_input {
-    background-color: #fff !important; /* Fond clair pour le thème clair */
-    color: #333 !important; /* Texte sombre pour le thème clair */
-}
-
-.html--light .DateRangePicker .CalendarDay__selected, 
-.html--light .DateRangePicker .CalendarDay__hovered_span, 
-.html--light .DateRangePicker .CalendarDay__selected_span {
-    background-color: #0074d9 !important; /* Bleu pour les jours sélectionnés */
-    color: #fff !important;
-}
-
-/* Styles pour assurer que les inputs et les en-têtes ne prennent pas un fond inattendu */
-.DateRangePickerInput, .DateRangePickerInput_1,
-.CalendarMonth_caption {
-    background-color: inherit !important; /* Hérite le fond du parent */
-    color: inherit !important; /* Hérite la couleur du parent */
-}
-
+.custom-range-slider .rc-slider-track {
+    background-color: rgb(75, 144, 226) !important;
+  }
+  
+  .custom-range-slider .rc-slider-handle,
+  .custom-range-slider .rc-slider-handle:focus,
+  .custom-range-slider .rc-slider-handle:hover,
+  .custom-range-slider .rc-slider-handle:active {
+    background-color: rgb(75, 144, 226) !important;
+    border: 2px solid rgb(75, 144, 226) !important;
+  }

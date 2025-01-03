@@ -3,7 +3,8 @@ from ..utils.data_loader import load_cleaned_data
 from ..utils.figures import create_temperature_figure, create_precipitation_bar, create_map_figure
 from ..layout.themes import light_theme, dark_theme
 import pandas as pd
-from dateutil.parser import parse
+from datetime import date
+
 
 def register_figures_callbacks(app, data, france_regions_geojson, france_departements_geojson):
 
@@ -18,17 +19,21 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             Output('map-graph', 'figure')
         ],
         [
-            Input('date-picker-range', 'start_date'),
-            Input('date-picker-range', 'end_date'),
+            Input('date-range-slider', 'value'),
             Input('city-dropdown', 'value'),
             Input('current-theme', 'data'),
             Input('map-metric', 'value'),
             Input('geo-level', 'value')
         ]
     )
-    def update_dashboard(start_date, end_date, selected_city, theme_value, map_metric, geo_level):
-        start_date = parse(start_date).date()
-        end_date = parse(end_date).date()
+    def update_dashboard(date_range, selected_city, theme_value, map_metric, geo_level=None):
+        # Définir une valeur par défaut pour geo_level si elle est manquante
+        if geo_level is None:
+            geo_level = "region"
+
+        # Convertir les valeurs ordinales du RangeSlider en dates
+        start_date = date.fromordinal(date_range[0])
+        end_date = date.fromordinal(date_range[1])
 
         # Filtrage par ville
         city_data = data.loc[data['communes (name)'] == selected_city].copy()
