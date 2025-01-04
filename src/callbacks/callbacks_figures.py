@@ -1,13 +1,104 @@
-from dash.dependencies import Input, Output
-from ..utils.data_loader import load_cleaned_data
+from dash.dependencies import Input, Output, State
+from dash import callback_context
+from datetime import date
+import pandas as pd
 from ..utils.figures import create_temperature_figure, create_precipitation_bar, create_map_figure
 from ..layout.themes import light_theme, dark_theme
-import pandas as pd
-from datetime import date
+
+def register_fullscreen_callbacks(app):
+    @app.callback(
+        [
+            Output('temp-graph', 'className'),
+            Output('precipitation-bar', 'className'),
+            Output('map-graph', 'className'),
+            Output('fullscreen-temp-graph-btn', 'style'),
+            Output('exit-fullscreen-temp-graph-btn', 'style'),
+            Output('fullscreen-precipitation-bar-btn', 'style'),
+            Output('exit-fullscreen-precipitation-bar-btn', 'style'),
+            Output('fullscreen-map-graph-btn', 'style'),
+            Output('exit-fullscreen-map-graph-btn', 'style'),
+            Output('temp-graph', 'style'),
+            Output('precipitation-bar', 'style'),
+            Output('map-graph', 'style')
+        ],
+        [
+            Input('fullscreen-temp-graph-btn', 'n_clicks'),
+            Input('exit-fullscreen-temp-graph-btn', 'n_clicks'),
+            Input('fullscreen-precipitation-bar-btn', 'n_clicks'),
+            Input('exit-fullscreen-precipitation-bar-btn', 'n_clicks'),
+            Input('fullscreen-map-graph-btn', 'n_clicks'),
+            Input('exit-fullscreen-map-graph-btn', 'n_clicks'),
+        ],
+        prevent_initial_call=True
+    )
+    def toggle_fullscreen(
+        temp_enter, temp_exit,
+        precip_enter, precip_exit,
+        map_enter, map_exit
+    ):
+        ctx = callback_context
+        triggered_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
+
+        temp_class = 'fullscreenable'
+        precip_class = 'fullscreenable'
+        map_class = 'fullscreenable'
+
+        temp_style = {}
+        precip_style = {}
+        map_style = {}
+
+        temp_btn_style = precip_btn_style = map_btn_style = {'display': 'block'}
+        temp_exit_style = precip_exit_style = map_exit_style = {'display': 'none'}
+
+        if triggered_id == 'fullscreen-temp-graph-btn':
+
+            temp_class += ' fullscreen'
+            temp_btn_style = {'display': 'none'}
+            temp_exit_style = {'display': 'block'}
+
+            precip_btn_style = map_btn_style = {'display': 'none'}
+
+            temp_style = {'height': '100vh', 'width': '100vw'}
+
+        elif triggered_id == 'exit-fullscreen-temp-graph-btn':
+            temp_class = 'fullscreenable'
+            temp_style = {'height': '', 'width': ''}
+
+        elif triggered_id == 'fullscreen-precipitation-bar-btn':
+            precip_class += ' fullscreen'
+            precip_btn_style = {'display': 'none'}
+            precip_exit_style = {'display': 'block'}
+            temp_btn_style = map_btn_style = {'display': 'none'}
+            precip_style = {'height': '100vh', 'width': '100vw'}
+
+        elif triggered_id == 'exit-fullscreen-precipitation-bar-btn':
+            precip_class = 'fullscreenable'
+            precip_style = {'height': '', 'width': ''}
+
+        elif triggered_id == 'fullscreen-map-graph-btn':
+            map_class += ' fullscreen'
+            map_btn_style = {'display': 'none'}
+            map_exit_style = {'display': 'block'}
+            temp_btn_style = precip_btn_style = {'display': 'none'}
+            map_style = {'height': '100vh', 'width': '100vw'}
+
+        elif triggered_id == 'exit-fullscreen-map-graph-btn':
+            map_class = 'fullscreenable'
+            map_style = {'height': '', 'width': ''}
+
+        return (
+            temp_class, precip_class, map_class,
+            temp_btn_style, temp_exit_style,
+            precip_btn_style, precip_exit_style,
+            map_btn_style, map_exit_style,
+            temp_style, precip_style, map_style
+        )
+
+
+
 
 
 def register_figures_callbacks(app, data, france_regions_geojson, france_departements_geojson):
-
     @app.callback(
         [
             Output('max-temp-24h', 'children'),
@@ -27,49 +118,39 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
         ]
     )
     def update_dashboard(date_range, selected_city, theme_value, map_metric, geo_level=None):
-        # Définir une valeur par défaut pour geo_level si elle est manquante
         if geo_level is None:
             geo_level = "region"
 
-        # Convertir les valeurs ordinales du RangeSlider en dates
         start_date = date.fromordinal(date_range[0])
         end_date = date.fromordinal(date_range[1])
 
-        # Filtrage par ville
         city_data = data.loc[data['communes (name)'] == selected_city].copy()
 
-        # Remplir les valeurs manquantes
         city_data['Température maximale sur 24 heures'] = city_data['Température maximale sur 24 heures'].fillna(city_data['Température'])
         city_data['Température minimale sur 24 heures'] = city_data['Température minimale sur 24 heures'].fillna(city_data['Température'])
         city_data['Précipitations dans les 24 dernières heures'] = city_data['Précipitations dans les 24 dernières heures'].fillna(0)
 
-        # Regroupement par date avec agrégations spécifiques
         city_data_daily = city_data.groupby(city_data['Date'].dt.date).agg({
             'Température maximale sur 24 heures': 'max',
             'Température minimale sur 24 heures': 'min',
-            'Précipitations dans les 24 dernières heures': 'mean'  # Moyenne des précipitations
+            'Précipitations dans les 24 dernières heures': 'mean'
         }).reset_index()
 
-        # Filtrer les données par plage de dates
         filtered_data = city_data_daily[(city_data_daily['Date'] >= start_date) & (city_data_daily['Date'] <= end_date)]
 
         if filtered_data.empty:
             return "N/A", "N/A", "N/A", "N/A", {}, {}, {}
 
-        # Calcul des valeurs
         max_temp = round(filtered_data['Température maximale sur 24 heures'].max() - 273.15, 1)
         min_temp = round(filtered_data['Température minimale sur 24 heures'].min() - 273.15, 1)
         total_precipitation = round(filtered_data['Précipitations dans les 24 dernières heures'].sum(), 1)
         precipitation_days = len(filtered_data[filtered_data['Précipitations dans les 24 dernières heures'] > 0])
 
-        # Définir le thème
         theme = dark_theme if theme_value == 'dark' else light_theme
 
-        # Graphiques
         temp_fig = create_temperature_figure(filtered_data, theme)
         precipitation_fig = create_precipitation_bar(filtered_data, theme)
 
-        # Données globales pour la carte
         global_filtered_data = data[(data['Date'].dt.date >= start_date) & (data['Date'].dt.date <= end_date)]
 
         if geo_level == 'region':

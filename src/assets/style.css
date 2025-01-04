@@ -1,22 +1,126 @@
-body{
-    display: block;
-    margin: 0;
+/* Réinitialisation des marges et paddings */
+body {
+  display: block;
+  margin: 0;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Style pour le RangeSlider */
 .custom-range-slider .rc-slider-track {
-    background-color: rgb(75, 144, 226) !important;
-  }
-  
-  .custom-range-slider .rc-slider-handle,
-  .custom-range-slider .rc-slider-handle:focus,
-  .custom-range-slider .rc-slider-handle:hover,
-  .custom-range-slider .rc-slider-handle:active {
-    background-color: rgb(75, 144, 226) !important;
-    border: 2px solid rgb(75, 144, 226) !important;
-  }
+  background-color: rgb(75, 144, 226) !important;
+}
+
+.custom-range-slider .rc-slider-handle,
+.custom-range-slider .rc-slider-handle:focus,
+.custom-range-slider .rc-slider-handle:hover,
+.custom-range-slider .rc-slider-handle:active {
+  background-color: rgb(75, 144, 226) !important;
+  border: 2px solid rgb(75, 144, 226) !important;
+}
+
+/* Conteneur des graphiques */
+.graph-container {
+  position: relative;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* Graphiques en mode "normal" (pas fullscreen) */
+.fullscreenable {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Taille par défaut (Températures + Précipitations)*/
+.graph-container .fullscreenable:not(.fullscreen) {
+  width: 100%;
+  height: 300px; /* Hauteur standard hors plein écran */
+  max-width: 100%;
+  border-radius: 14px !important; /* Bords arrondis */
+  overflow: hidden !important;    /* Cache l’excès pour un vrai arrondi */
+}
+
+/* Taille par défaut pour la carte (on override la règle ci-dessus via l'ID map-graph) */
+#map-graph.fullscreenable:not(.fullscreen) {
+  height: 520px; /* Plus haut => on voit mieux la France */
+  border-radius: 14px !important; 
+  overflow: hidden !important; 
+}
+
+/* Mode plein écran */
+.fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9998 !important;
+  background-color: white !important;
+  border-radius: 0 !important; /* En fullscreen, bords droits */
+  padding: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+/* Bouton "Plein écran" */
+.fullscreen-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #4A90E2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.fullscreen-button:hover {
+  background-color: #357ABD;
+  transform: scale(1.05);
+}
+
+/* Bouton "Quitter le plein écran" */
+.exit-fullscreen-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #E74C3C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 10001;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.exit-fullscreen-button:hover {
+  background-color: #C0392B;
+  transform: scale(1.05);
+}
+
+/* En mode plein écran, on masque le bouton "Plein écran" et on affiche "Quitter" */
+.fullscreen .fullscreen-button {
+  display: none !important;
+}
+.fullscreen .exit-fullscreen-button {
+  display: block !important;
+}
+
+/* Pour éviter d'afficher d'autres boutons quand l'un est en plein écran */
+.fullscreen + .graph-container .fullscreen-button {
+  display: none;
+}
+

@@ -48,7 +48,7 @@ def serve_layout(theme, city_options, min_date, max_date):
                     'marginBottom': '20px'
                 }),
 
-                # Filtres de date
+                # Filtres de date (slider)
                 html.Div([
                     dcc.RangeSlider(
                         id='date-range-slider',
@@ -67,10 +67,10 @@ def serve_layout(theme, city_options, min_date, max_date):
                         },
                         included=True,
                         updatemode='drag',
-                        className="custom-range-slider" 
+                        className="custom-range-slider"
                     )
                 ], style={
-                    'margin': '10px 0',
+                    'margin': '30px 0',
                     'padding': '10px',
                     'borderRadius': '14px',
                     'backgroundColor': theme['card_background'],
@@ -80,22 +80,45 @@ def serve_layout(theme, city_options, min_date, max_date):
                 # KPI Cards
                 kpi_cards(theme),
 
-                # Graphiques
+                # Graphiques (Temp + Précip)
                 html.Div([
-                    dcc.Graph(id='temp-graph', style={
-                        'height': '300px',
-                        'borderRadius': '14px',
-                        'backgroundColor': theme['card_background'],
-                        'boxShadow': theme['box_shadow'],
-                        'padding': '10px'
-                    }),
-                    dcc.Graph(id='precipitation-bar', style={
-                        'height': '300px',
-                        'borderRadius': '14px',
-                        'backgroundColor': theme['card_background'],
-                        'boxShadow': theme['box_shadow'],
-                        'padding': '10px'
-                    })
+                    html.Div([
+                        dcc.Graph(
+                            id='temp-graph',
+                            className='fullscreenable',
+                            style={}
+                        ),
+                        html.Button(
+                            "Plein écran",
+                            id='fullscreen-temp-graph-btn',
+                            className='fullscreen-button'
+                        ),
+                        html.Button(
+                            "Quitter le plein écran",
+                            id='exit-fullscreen-temp-graph-btn',
+                            className='exit-fullscreen-button',
+                            style={'display': 'none'}
+                        )
+                    ], className='graph-container'),
+
+                    html.Div([
+                        dcc.Graph(
+                            id='precipitation-bar',
+                            className='fullscreenable',
+                            style={}
+                        ),
+                        html.Button(
+                            "Plein écran",
+                            id='fullscreen-precipitation-bar-btn',
+                            className='fullscreen-button'
+                        ),
+                        html.Button(
+                            "Quitter le plein écran",
+                            id='exit-fullscreen-precipitation-bar-btn',
+                            className='exit-fullscreen-button',
+                            style={'display': 'none'}
+                        )
+                    ], className='graph-container')
                 ], style={
                     'display': 'grid',
                     'gridTemplateColumns': 'repeat(2, 1fr)',
@@ -103,19 +126,27 @@ def serve_layout(theme, city_options, min_date, max_date):
                     'marginBottom': '20px',
                 }),
 
-                # Carte
+                # Graphique Carte
                 html.Div([
-                    dcc.Graph(id='map-graph', style={
-                        'height': '500px',
-                        'borderRadius': '14px',
-                        'backgroundColor': theme['card_background'],
-                        'boxShadow': theme['box_shadow'],
-                        'padding': '10px'
-                    })
-                ], style={
-                    'marginBottom': '20px'
-                }),
-
+                    html.Div([
+                        dcc.Graph(
+                            id='map-graph',
+                            className='fullscreenable',
+                            style={}
+                        ),
+                        html.Button(
+                            "Plein écran",
+                            id='fullscreen-map-graph-btn',
+                            className='fullscreen-button'
+                        ),
+                        html.Button(
+                            "Quitter le plein écran",
+                            id='exit-fullscreen-map-graph-btn',
+                            className='exit-fullscreen-button',
+                            style={'display': 'none'}
+                        )
+                    ], className='graph-container')
+                ])
             ], style={
                 'flex': '1',
                 'padding': '20px',

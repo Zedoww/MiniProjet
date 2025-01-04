@@ -49,7 +49,7 @@ def create_precipitation_bar(filtered_data, theme):
 def create_map_figure(data, geojson, map_metric, theme, featureidkey='properties.code'):
     if map_metric == 'temp':
         z = data['Température'] - 273.15
-        colorscale = 'RdYlBu_r'  #bluered ou Sunset_r ou RdYlBu_r pour d'autres couleurs
+        colorscale = 'RdYlBu_r'  # bluered ou Sunset_r ou RdYlBu_r pour d'autres couleurs
         title_map = "Température moyenne (°C)"
         hovertemplate = "<b>%{location}</b><br>Temp. moy: %{z:.1f}°C<extra></extra>"
         color_col = 'Température'
@@ -77,11 +77,15 @@ def create_map_figure(data, geojson, map_metric, theme, featureidkey='properties
     )
     fig.update_traces(hovertemplate=hovertemplate)
     fig.update_layout(
-        title={'text': title_map, 'font': {'color': theme['text_color'], 'size': 18}},
+        title={
+            'text': title_map,
+            'font': {'color': theme['text_color'], 'size': 18},
+            'x': 0.5  # Position horizontale centrée
+        },
         paper_bgcolor=theme['card_background'],
         plot_bgcolor=theme['card_background'],
         font=dict(color=theme['text_color']),
-        margin={'r':0,'t':50,'l':0,'b':0}
+        margin={'r': 0, 't': 50, 'l': 0, 'b': 0}
     )
 
     fig.update_coloraxes(colorbar=dict(

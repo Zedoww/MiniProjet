@@ -4,6 +4,7 @@ from datetime import datetime
 from .utils.data_loader import load_cleaned_data, load_regions_geojson, load_departements_geojson
 from .layout.themes import light_theme, dark_theme
 from .layout.layout import serve_layout
+from .callbacks.callbacks_figures import register_fullscreen_callbacks
 
 # Charger les données
 data = load_cleaned_data()
@@ -14,7 +15,7 @@ france_departements_geojson = load_departements_geojson("data/departements.geojs
 #app = dash.Dash(__name__)
 app = dash.Dash(__name__)
 app.title = "Tableau de bord historique météo"
-
+register_fullscreen_callbacks(app)
 
 # Définir les plages de dates
 min_date = data['Date'].min().date()
