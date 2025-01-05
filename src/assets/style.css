@@ -111,7 +111,7 @@ body {
   transform: scale(1.05);
 }
 
-/* En mode plein écran, on masque le bouton "Plein écran" et on affiche "Quitter" */
+/* En  plein écran, masque bouton "Plein écran" et affiche "Quitter" */
 .fullscreen .fullscreen-button {
   display: none !important;
 }
@@ -119,8 +119,44 @@ body {
   display: block !important;
 }
 
-/* Pour éviter d'afficher d'autres boutons quand l'un est en plein écran */
+/* Eviter d'afficher autres boutons quand un est en plein écran */
 .fullscreen + .graph-container .fullscreen-button {
   display: none;
 }
 
+
+
+
+.Select-control {
+  font-weight: 600;
+}
+
+/* Couleur de fond et texte pour le dropdown en mode sombre */
+.dropdown-dark .Select-control,
+.dropdown-dark .Select-value,
+.dropdown-dark .Select-placeholder {
+  background-color: #cccccc; /* Gris foncé */
+  color: white !important; /* Texte blanc pour le mode sombre */
+}
+
+/* Styles pour les options du dropdown en mode sombre */
+.dropdown-dark .Select-menu-outer,
+.dropdown-dark .Select-option {
+  background-color: #555555; /* Gris foncé */
+  color: white !important; /* Texte blanc pour les options */
+}
+
+/* Couleur de fond et texte pour le dropdown en mode clair */
+.dropdown-light .Select-control,
+.dropdown-light .Select-value,
+.dropdown-light .Select-placeholder {
+  background-color: #FFF; /* Blanc */
+  color: black !important; /* Texte noir pour le mode clair */
+}
+
+/* Styles pour les options du dropdown en mode clair */
+.dropdown-light .Select-menu-outer,
+.dropdown-light .Select-option {
+  background-color: #FFF; /* Blanc */
+  color: black !important; /* Texte noir pour les options */
+}

@@ -31,7 +31,7 @@ def serve_app_layout(theme_name='light'):
 
 # Mise en page principale de l'application
 app.layout = html.Div([
-    dcc.Store(id='current-theme', data='light'),
+    dcc.Store(id='current-themee', data='light'),
     html.Div(id='page-content', children=serve_app_layout('light'))
 ], style={
     'backgroundColor': '#000000',
