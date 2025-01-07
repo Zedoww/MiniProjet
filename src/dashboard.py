@@ -12,7 +12,6 @@ france_regions_geojson = load_regions_geojson("data/regions.geojson")
 france_departements_geojson = load_departements_geojson("data/departements.geojson")
 
 # Initialiser l'application Dash
-#app = dash.Dash(__name__)
 app = dash.Dash(__name__)
 app.title = "Tableau de bord historique météo"
 register_fullscreen_callbacks(app)
@@ -31,7 +30,7 @@ def serve_app_layout(theme_name='light'):
 
 # Mise en page principale de l'application
 app.layout = html.Div([
-    dcc.Store(id='current-themee', data='light'),
+    dcc.Store(id='current-theme', data='light'),  # Correction de l'ID (anciennement 'current-themee')
     html.Div(id='page-content', children=serve_app_layout('light'))
 ], style={
     'backgroundColor': '#000000',

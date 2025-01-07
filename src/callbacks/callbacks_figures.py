@@ -2,7 +2,12 @@ from dash.dependencies import Input, Output, State
 from dash import callback_context
 from datetime import date
 import pandas as pd
-from ..utils.figures import create_temperature_figure, create_precipitation_bar, create_map_figure
+from ..utils.figures import (
+    create_temperature_figure,
+    create_precipitation_bar,
+    create_map_figure,
+    create_temperature_histogram
+)
 from ..layout.themes import light_theme, dark_theme
 
 def register_fullscreen_callbacks(app):
@@ -11,15 +16,19 @@ def register_fullscreen_callbacks(app):
             Output('temp-graph', 'className'),
             Output('precipitation-bar', 'className'),
             Output('map-graph', 'className'),
+            Output('temp-histogram', 'className'),
             Output('fullscreen-temp-graph-btn', 'style'),
             Output('exit-fullscreen-temp-graph-btn', 'style'),
             Output('fullscreen-precipitation-bar-btn', 'style'),
             Output('exit-fullscreen-precipitation-bar-btn', 'style'),
             Output('fullscreen-map-graph-btn', 'style'),
             Output('exit-fullscreen-map-graph-btn', 'style'),
+            Output('fullscreen-histogram-btn', 'style'),
+            Output('exit-fullscreen-histogram-btn', 'style'),
             Output('temp-graph', 'style'),
             Output('precipitation-bar', 'style'),
-            Output('map-graph', 'style')
+            Output('map-graph', 'style'),
+            Output('temp-histogram', 'style')
         ],
         [
             Input('fullscreen-temp-graph-btn', 'n_clicks'),
@@ -28,35 +37,40 @@ def register_fullscreen_callbacks(app):
             Input('exit-fullscreen-precipitation-bar-btn', 'n_clicks'),
             Input('fullscreen-map-graph-btn', 'n_clicks'),
             Input('exit-fullscreen-map-graph-btn', 'n_clicks'),
+            Input('fullscreen-histogram-btn', 'n_clicks'),
+            Input('exit-fullscreen-histogram-btn', 'n_clicks'),
         ],
         prevent_initial_call=True
     )
     def toggle_fullscreen(
         temp_enter, temp_exit,
         precip_enter, precip_exit,
-        map_enter, map_exit
+        map_enter, map_exit,
+        hist_enter, hist_exit
     ):
         ctx = callback_context
         triggered_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
 
+        # Réinitialiser les classes et styles
         temp_class = 'fullscreenable'
         precip_class = 'fullscreenable'
         map_class = 'fullscreenable'
+        hist_class = 'fullscreenable'
 
         temp_style = {}
         precip_style = {}
         map_style = {}
+        hist_style = {}
 
-        temp_btn_style = precip_btn_style = map_btn_style = {'display': 'block'}
-        temp_exit_style = precip_exit_style = map_exit_style = {'display': 'none'}
+        temp_btn_style = precip_btn_style = map_btn_style = hist_btn_style = {'display': 'block'}
+        temp_exit_style = precip_exit_style = map_exit_style = hist_exit_style = {'display': 'none'}
 
         if triggered_id == 'fullscreen-temp-graph-btn':
-
             temp_class += ' fullscreen'
             temp_btn_style = {'display': 'none'}
             temp_exit_style = {'display': 'block'}
 
-            precip_btn_style = map_btn_style = {'display': 'none'}
+            precip_btn_style = map_btn_style = hist_btn_style = {'display': 'none'}
 
             temp_style = {'height': '100vh', 'width': '100vw'}
 
@@ -68,7 +82,9 @@ def register_fullscreen_callbacks(app):
             precip_class += ' fullscreen'
             precip_btn_style = {'display': 'none'}
             precip_exit_style = {'display': 'block'}
-            temp_btn_style = map_btn_style = {'display': 'none'}
+
+            temp_btn_style = map_btn_style = hist_btn_style = {'display': 'none'}
+
             precip_style = {'height': '100vh', 'width': '100vw'}
 
         elif triggered_id == 'exit-fullscreen-precipitation-bar-btn':
@@ -79,24 +95,36 @@ def register_fullscreen_callbacks(app):
             map_class += ' fullscreen'
             map_btn_style = {'display': 'none'}
             map_exit_style = {'display': 'block'}
-            temp_btn_style = precip_btn_style = {'display': 'none'}
+
+            temp_btn_style = precip_btn_style = hist_btn_style = {'display': 'none'}
+
             map_style = {'height': '100vh', 'width': '100vw'}
 
         elif triggered_id == 'exit-fullscreen-map-graph-btn':
             map_class = 'fullscreenable'
             map_style = {'height': '', 'width': ''}
 
+        elif triggered_id == 'fullscreen-histogram-btn':
+            hist_class += ' fullscreen'
+            hist_btn_style = {'display': 'none'}
+            hist_exit_style = {'display': 'block'}
+
+            temp_btn_style = precip_btn_style = map_btn_style = {'display': 'none'}
+
+            hist_style = {'height': '100vh', 'width': '100vw'}
+
+        elif triggered_id == 'exit-fullscreen-histogram-btn':
+            hist_class = 'fullscreenable'
+            hist_style = {'height': '', 'width': ''}
+
         return (
-            temp_class, precip_class, map_class,
+            temp_class, precip_class, map_class, hist_class,
             temp_btn_style, temp_exit_style,
             precip_btn_style, precip_exit_style,
             map_btn_style, map_exit_style,
-            temp_style, precip_style, map_style
+            hist_btn_style, hist_exit_style,
+            temp_style, precip_style, map_style, hist_style
         )
-
-
-
-
 
 def register_figures_callbacks(app, data, france_regions_geojson, france_departements_geojson):
     @app.callback(
@@ -107,7 +135,8 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             Output('precipitation-days', 'children'),
             Output('temp-graph', 'figure'),
             Output('precipitation-bar', 'figure'),
-            Output('map-graph', 'figure')
+            Output('map-graph', 'figure'),
+            Output('temp-histogram', 'figure')
         ],
         [
             Input('date-range-slider', 'value'),
@@ -139,7 +168,7 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
         filtered_data = city_data_daily[(city_data_daily['Date'] >= start_date) & (city_data_daily['Date'] <= end_date)]
 
         if filtered_data.empty:
-            return "N/A", "N/A", "N/A", "N/A", {}, {}, {}
+            return "N/A", "N/A", "N/A", "N/A", {}, {}, {}, {}
 
         max_temp = round(filtered_data['Température maximale sur 24 heures'].max() - 273.15, 1)
         min_temp = round(filtered_data['Température minimale sur 24 heures'].min() - 273.15, 1)
@@ -150,6 +179,7 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
 
         temp_fig = create_temperature_figure(filtered_data, theme)
         precipitation_fig = create_precipitation_bar(filtered_data, theme)
+        histogram_fig = create_temperature_histogram(filtered_data, theme)
 
         global_filtered_data = data[(data['Date'].dt.date >= start_date) & (data['Date'].dt.date <= end_date)]
 
@@ -176,5 +206,6 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             f"{precipitation_days}",
             temp_fig,
             precipitation_fig,
-            map_fig
+            map_fig,
+            histogram_fig  # Retourner l'histogramme
         )

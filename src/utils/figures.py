@@ -95,3 +95,32 @@ def create_map_figure(data, geojson, map_metric, theme, featureidkey='properties
     ))
 
     return fig
+
+def create_temperature_histogram(filtered_data, theme):
+    temperatures = filtered_data['Température maximale sur 24 heures'] - 273.15  # Conversion en °C
+
+    fig = px.histogram(
+        temperatures,
+        x=temperatures,
+        nbins=30,
+        title='Distribution des Températures Maximales sur l\'Année',
+        labels={'x': 'Température (°C)', 'y': 'Fréquence'},
+        template='plotly_dark' if theme['name'] == 'dark' else 'plotly_white',
+        color_discrete_sequence=['#4A90E2']  # Correction ici
+    )
+
+    fig.update_layout(
+        title={
+            'text': 'Fréquence des Températures Max',
+            'font': {'color': theme['text_color'], 'size': 16},
+            'x': 0.5
+        },
+        xaxis={'title': 'Température (°C)', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
+        yaxis={'title': 'Fréquence', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
+        plot_bgcolor=theme['card_background'],
+        paper_bgcolor=theme['card_background'],
+        font={'color': theme['text_color']},
+        margin={'l': 50, 'r': 20, 't': 50, 'b': 50}
+    )
+
+    return fig

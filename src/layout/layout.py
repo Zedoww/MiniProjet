@@ -89,7 +89,7 @@ def serve_layout(theme, city_options, min_date, max_date):
                             style={}
                         ),
                         html.Button(
-                            "Plein écran",
+                            "⛶",
                             id='fullscreen-temp-graph-btn',
                             className='fullscreen-button'
                         ),
@@ -108,7 +108,7 @@ def serve_layout(theme, city_options, min_date, max_date):
                             style={}
                         ),
                         html.Button(
-                            "Plein écran",
+                            "⛶",
                             id='fullscreen-precipitation-bar-btn',
                             className='fullscreen-button'
                         ),
@@ -118,10 +118,29 @@ def serve_layout(theme, city_options, min_date, max_date):
                             className='exit-fullscreen-button',
                             style={'display': 'none'}
                         )
-                    ], className='graph-container')
+                    ], className='graph-container'),
+
+                    html.Div([
+                        dcc.Graph(
+                            id='temp-histogram',
+                            className='fullscreenable',
+                            style={}
+                        ),
+                        html.Button(
+                            "⛶",
+                            id='fullscreen-histogram-btn',
+                            className='fullscreen-button'
+                        ),
+                        html.Button(
+                            "Quitter le plein écran",
+                            id='exit-fullscreen-histogram-btn',
+                            className='exit-fullscreen-button',
+                            style={'display': 'none'}
+                        )
+                    ], className='graph-container'),
                 ], style={
                     'display': 'grid',
-                    'gridTemplateColumns': 'repeat(2, 1fr)',
+                    'gridTemplateColumns': 'repeat(3, 1fr)',
                     'gap': '20px',
                     'marginBottom': '20px',
                 }),
@@ -135,7 +154,7 @@ def serve_layout(theme, city_options, min_date, max_date):
                             style={}
                         ),
                         html.Button(
-                            "Plein écran",
+                            "⛶",
                             id='fullscreen-map-graph-btn',
                             className='fullscreen-button'
                         ),
