@@ -1,7 +1,6 @@
 from dash import dcc, html
 
 def sidebar(theme, city_options):
-    # Déterminer la classe pour le dropdown en fonction du thème
     theme_class = 'dropdown-dark' if theme['name'] == 'dark' else 'dropdown-light'
 
     return html.Div([
@@ -16,7 +15,7 @@ def sidebar(theme, city_options):
             html.Div("Light", className="theme-label"),
             html.Div(
                 id="theme-switch", 
-                className="switch", 
+                className=f"switch {'active' if theme['name'] == 'dark' else ''}",
                 children=[
                     html.Div(className="toggle")
                 ]

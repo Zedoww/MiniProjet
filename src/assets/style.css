@@ -185,6 +185,7 @@ body {
   align-items: center;
   padding: 5px;
   transition: background-color 0.3s ease; /* Animation de couleur */
+  border: 1px solid #959595;
 }
 
 .switch .toggle {
@@ -193,16 +194,20 @@ body {
   background-color: #FFFFFF;
   border-radius: 50%;
   position: absolute;
-  top: 5px;
-  left: 5px; /* Position initiale pour Light */
+  top: 4px;
+  left: 4px; /* Position initiale pour Light */
   transition: all 0.3s ease; /* Animation fluide */
+}
+
+.switch.active .toggle {
+  background-color: #000000;
 }
 
 /* Mode sombre */
 .switch.active {
-  background-color: #333333; /* Couleur pour le mode sombre */
+  background-color: #616161; /* Couleur pour le mode sombre */
 }
 
 .switch.active .toggle {
-  left: 35px; /* Position pour Dark */
+  left: 34px; /* Position pour Dark */
 }
