@@ -1,10 +1,11 @@
 import dash
 from dash import html, dcc
-from datetime import datetime
 from .utils.data_loader import load_cleaned_data, load_regions_geojson, load_departements_geojson
 from .layout.themes import light_theme, dark_theme
 from .layout.layout import serve_layout
 from .callbacks.callbacks_figures import register_fullscreen_callbacks
+from .callbacks.callbacks_general import register_general_callbacks
+from .callbacks.callbacks_figures import register_figures_callbacks
 
 # Charger les données
 data = load_cleaned_data()
@@ -40,10 +41,6 @@ app.layout = html.Div([
     'margin': '0',
     'padding': '0'
 })
-
-# Importer et enregistrer les callbacks
-from .callbacks.callbacks_general import register_general_callbacks
-from .callbacks.callbacks_figures import register_figures_callbacks
 
 register_general_callbacks(app)
 register_figures_callbacks(app, data, france_regions_geojson, france_departements_geojson)

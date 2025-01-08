@@ -27,7 +27,8 @@ def serve_layout(theme, city_options, min_date, max_date):
                             'fontWeight': '600',
                             'color': theme['text_color'],
                             'marginBottom': '5px',
-                            'marginTop': '10px'
+                            'marginTop': '10px',
+                            'transition': 'all 0.3s ease-in-out'
                         }
                     ),
                     html.P(
@@ -37,7 +38,8 @@ def serve_layout(theme, city_options, min_date, max_date):
                             'color': theme['secondary_text'],
                             'fontSize': '14px',
                             'margin': '0',
-                            'paddingBottom': '10px'
+                            'paddingBottom': '10px',
+                            'transition': 'all 0.3s ease-in-out'
                         }
                     ),
                 ], style={
@@ -45,7 +47,8 @@ def serve_layout(theme, city_options, min_date, max_date):
                     'padding': '20px',
                     'borderRadius': '14px',
                     'boxShadow': theme['box_shadow'],
-                    'marginBottom': '20px'
+                    'marginBottom': '20px',
+                    'transition': 'all 0.3s ease-in-out'
                 }),
 
                 # Filtres de date (slider)
@@ -74,13 +77,14 @@ def serve_layout(theme, city_options, min_date, max_date):
                     'padding': '10px',
                     'borderRadius': '14px',
                     'backgroundColor': theme['card_background'],
-                    'boxShadow': theme['box_shadow']
+                    'boxShadow': theme['box_shadow'],
+                    'transition': 'all 0.3s ease-in-out'
                 }),
 
                 # KPI Cards
                 kpi_cards(theme),
 
-                # Graphiques (Temp + Précip)
+                # Graphiques (Temp + Précip + Histogramme)
                 html.Div([
                     html.Div([
                         dcc.Graph(
@@ -97,7 +101,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                             "Quitter le plein écran",
                             id='exit-fullscreen-temp-graph-btn',
                             className='exit-fullscreen-button',
-                            style={'display': 'none'}
                         )
                     ], className='graph-container'),
 
@@ -105,7 +108,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                         dcc.Graph(
                             id='precipitation-bar',
                             className='fullscreenable',
-                            style={}
                         ),
                         html.Button(
                             "⛶",
@@ -124,7 +126,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                         dcc.Graph(
                             id='temp-histogram',
                             className='fullscreenable',
-                            style={}
                         ),
                         html.Button(
                             "⛶",
@@ -135,14 +136,13 @@ def serve_layout(theme, city_options, min_date, max_date):
                             "Quitter le plein écran",
                             id='exit-fullscreen-histogram-btn',
                             className='exit-fullscreen-button',
-                            style={'display': 'none'}
                         )
                     ], className='graph-container'),
                 ], style={
                     'display': 'grid',
                     'gridTemplateColumns': 'repeat(3, 1fr)',
                     'gap': '20px',
-                    'marginBottom': '20px',
+                    'marginBottom': '20px'
                 }),
 
                 # Graphique Carte
@@ -151,7 +151,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                         dcc.Graph(
                             id='map-graph',
                             className='fullscreenable',
-                            style={}
                         ),
                         html.Button(
                             "⛶",
@@ -162,7 +161,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                             "Quitter le plein écran",
                             id='exit-fullscreen-map-graph-btn',
                             className='exit-fullscreen-button',
-                            style={'display': 'none'}
                         )
                     ], className='graph-container')
                 ])
@@ -182,9 +180,10 @@ def serve_layout(theme, city_options, min_date, max_date):
     ], style={
         'fontFamily': '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif',
         'backgroundColor': theme['background'],
+        'color': theme['text_color'],
         'width': '100%',
         'height': '100%',
         'margin': '0',
         'padding': '0',
-        'color': theme['text_color']
+        'transition': 'all 0.3s ease-in-out'
     })

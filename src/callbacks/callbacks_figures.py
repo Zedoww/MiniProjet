@@ -51,17 +51,19 @@ def register_fullscreen_callbacks(app):
         ctx = callback_context
         triggered_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
 
-        # Réinitialiser les classes et styles
+        # Classes par défaut
         temp_class = 'fullscreenable'
         precip_class = 'fullscreenable'
         map_class = 'fullscreenable'
         hist_class = 'fullscreenable'
 
+        # Styles par défaut
         temp_style = {}
         precip_style = {}
         map_style = {}
         hist_style = {}
 
+        # Boutons
         temp_btn_style = precip_btn_style = map_btn_style = hist_btn_style = {'display': 'block'}
         temp_exit_style = precip_exit_style = map_exit_style = hist_exit_style = {'display': 'none'}
 
@@ -71,7 +73,6 @@ def register_fullscreen_callbacks(app):
             temp_exit_style = {'display': 'block'}
 
             precip_btn_style = map_btn_style = hist_btn_style = {'display': 'none'}
-
             temp_style = {'height': '100vh', 'width': '100vw'}
 
         elif triggered_id == 'exit-fullscreen-temp-graph-btn':
@@ -84,7 +85,6 @@ def register_fullscreen_callbacks(app):
             precip_exit_style = {'display': 'block'}
 
             temp_btn_style = map_btn_style = hist_btn_style = {'display': 'none'}
-
             precip_style = {'height': '100vh', 'width': '100vw'}
 
         elif triggered_id == 'exit-fullscreen-precipitation-bar-btn':
@@ -97,7 +97,6 @@ def register_fullscreen_callbacks(app):
             map_exit_style = {'display': 'block'}
 
             temp_btn_style = precip_btn_style = hist_btn_style = {'display': 'none'}
-
             map_style = {'height': '100vh', 'width': '100vw'}
 
         elif triggered_id == 'exit-fullscreen-map-graph-btn':
@@ -110,7 +109,6 @@ def register_fullscreen_callbacks(app):
             hist_exit_style = {'display': 'block'}
 
             temp_btn_style = precip_btn_style = map_btn_style = {'display': 'none'}
-
             hist_style = {'height': '100vh', 'width': '100vw'}
 
         elif triggered_id == 'exit-fullscreen-histogram-btn':
@@ -155,6 +153,7 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
 
         city_data = data.loc[data['communes (name)'] == selected_city].copy()
 
+        # Remplissage de NaN si besoin
         city_data['Température maximale sur 24 heures'] = city_data['Température maximale sur 24 heures'].fillna(city_data['Température'])
         city_data['Température minimale sur 24 heures'] = city_data['Température minimale sur 24 heures'].fillna(city_data['Température'])
         city_data['Précipitations dans les 24 dernières heures'] = city_data['Précipitations dans les 24 dernières heures'].fillna(0)
@@ -170,13 +169,16 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
         if filtered_data.empty:
             return "N/A", "N/A", "N/A", "N/A", {}, {}, {}, {}
 
+        # Conversion de Kelvin en °C (si tes données sont en Kelvin)
         max_temp = round(filtered_data['Température maximale sur 24 heures'].max() - 273.15, 1)
         min_temp = round(filtered_data['Température minimale sur 24 heures'].min() - 273.15, 1)
         total_precipitation = round(filtered_data['Précipitations dans les 24 dernières heures'].sum(), 1)
         precipitation_days = len(filtered_data[filtered_data['Précipitations dans les 24 dernières heures'] > 0])
 
+        # Choisir le thème
         theme = dark_theme if theme_value == 'dark' else light_theme
 
+        # Figures
         temp_fig = create_temperature_figure(filtered_data, theme)
         precipitation_fig = create_precipitation_bar(filtered_data, theme)
         histogram_fig = create_temperature_histogram(filtered_data, theme)
@@ -207,5 +209,5 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             temp_fig,
             precipitation_fig,
             map_fig,
-            histogram_fig  # Retourner l'histogramme
+            histogram_fig
         )

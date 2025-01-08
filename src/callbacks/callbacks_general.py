@@ -1,34 +1,27 @@
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from src.layout.themes import light_theme, dark_theme
-from dash import dcc, html
-
-from dash.dependencies import Input, Output
-from src.layout.themes import light_theme, dark_theme
-from dash import dcc, html
 
 def register_general_callbacks(app):
-
     @app.callback(
-        [
-            Output('current-theme', 'data'),
-            Output('page-content', 'children'),
-        ],
-        [
-            Input('theme-switch', 'value'),
-            Input('current-theme', 'data')
-        ]
+        [Output('current-theme', 'data'),  # Stocke le thème actif
+         Output('theme-switch', 'className')],  # Met à jour la classe CSS du switch
+        [Input('theme-switch', 'n_clicks')],
+        [State('current-theme', 'data')]  # Récupère le thème actuel
     )
-    def handle_theme_and_update(selected_theme, current_theme):
-        from ..dashboard import serve_app_layout
+    def toggle_theme(n_clicks, current_theme):
+        if not n_clicks:  # Si aucun clic n'a été effectué, ne rien faire
+            return current_theme, "switch"
 
-        # Determine if theme needs to be updated
-        theme = selected_theme if selected_theme != current_theme else current_theme
-
-        # Adjust map style based on theme
-        map_style = 'carto-dark' if theme == 'dark' else 'carto-positron'
-
-        # Generate the updated page content
-        page_content = serve_app_layout(theme)
-
-        return theme, page_content
+        # Alterner entre Light et Dark
+        if current_theme == 'light':
+            return 'dark', "switch active"
+        else:
+            return 'light', "switch"
     
+    @app.callback(
+        Output('page-content', 'children'),  # Recharge le layout en fonction du thème
+        Input('current-theme', 'data')
+    )
+    def update_layout(theme_name):
+        from ..dashboard import serve_app_layout
+        return serve_app_layout(theme_name)

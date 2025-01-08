@@ -35,18 +35,18 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-/* Taille par défaut (Températures + Précipitations)*/
+/* Taille par défaut (Températures + Précipitations) */
 .graph-container .fullscreenable:not(.fullscreen) {
   width: 100%;
   height: 300px; /* Hauteur standard hors plein écran */
   max-width: 100%;
-  border-radius: 14px !important; /* Bords arrondis */
-  overflow: hidden !important;    /* Cache l’excès pour un vrai arrondi */
+  border-radius: 14px !important;
+  overflow: hidden !important;    
 }
 
-/* Taille par défaut pour la carte (on override la règle ci-dessus via l'ID map-graph) */
+/* Taille par défaut pour la carte */
 #map-graph.fullscreenable:not(.fullscreen) {
-  height: 520px; /* Plus haut => on voit mieux la France */
+  height: 520px; 
   border-radius: 14px !important; 
   overflow: hidden !important; 
 }
@@ -59,8 +59,10 @@ body {
   width: 100vw !important;
   height: 100vh !important;
   z-index: 9998 !important;
-  background-color: white !important;
-  border-radius: 0 !important; /* En fullscreen, bords droits */
+  /* Retirer la ligne ci-dessous pour éviter le fond blanc en Dark Mode */
+  /* background-color: white !important; */
+  background-color: inherit !important; /* hérite du thème */
+  border-radius: 0 !important;
   padding: 0 !important;
   box-shadow: none !important;
   overflow: hidden !important;
@@ -111,7 +113,7 @@ body {
   transform: scale(1.05);
 }
 
-/* En  plein écran, masque bouton "Plein écran" et affiche "Quitter" */
+/* En plein écran, masque bouton "Plein écran" et affiche "Quitter" */
 .fullscreen .fullscreen-button {
   display: none !important;
 }
@@ -119,44 +121,88 @@ body {
   display: block !important;
 }
 
-/* Eviter d'afficher autres boutons quand un est en plein écran */
+/* Éviter d'afficher les autres boutons quand un graph est en fullscreen */
 .fullscreen + .graph-container .fullscreen-button {
   display: none;
 }
 
-
-
-
+/* Dropdown global */
 .Select-control {
   font-weight: 600;
 }
 
-/* Couleur de fond et texte pour le dropdown en mode sombre */
+/* Dropdown sombre */
 .dropdown-dark .Select-control,
 .dropdown-dark .Select-value,
 .dropdown-dark .Select-placeholder {
-  background-color: #cccccc; /* Gris foncé */
-  color: white !important; /* Texte blanc pour le mode sombre */
+  background-color: #CCCCCC !important; /* Couleur de fond plus sombre */
+  color: #FFFFFF !important; /* Texte blanc */
+  border: 1px solid #555555; /* Bordure visible */
 }
 
-/* Styles pour les options du dropdown en mode sombre */
 .dropdown-dark .Select-menu-outer,
 .dropdown-dark .Select-option {
-  background-color: #555555; /* Gris foncé */
-  color: white !important; /* Texte blanc pour les options */
+  background-color: #444444 !important; /* Couleur des options */
+  color: #E0E0E0 !important; /* Texte clair */
+  border: none;
 }
 
-/* Couleur de fond et texte pour le dropdown en mode clair */
+.dropdown-dark .Select-option:hover {
+  background-color: #444444 !important; /* Couleur au survol */
+  color: #FFFFFF !important;
+}
+
+/* Dropdown clair */
 .dropdown-light .Select-control,
 .dropdown-light .Select-value,
 .dropdown-light .Select-placeholder {
-  background-color: #FFF; /* Blanc */
-  color: black !important; /* Texte noir pour le mode clair */
+  background-color: #FFFFFF !important; /* Fond blanc */
+  color: #333333 !important; /* Texte noir */
+  border: 1px solid #CCCCCC; /* Bordure grise */
 }
 
-/* Styles pour les options du dropdown en mode clair */
 .dropdown-light .Select-menu-outer,
 .dropdown-light .Select-option {
-  background-color: #FFF; /* Blanc */
-  color: black !important; /* Texte noir pour les options */
+  background-color: #FFFFFF !important; /* Fond blanc */
+  color: #333333 !important; /* Texte noir */
+  border: none;
+}
+
+.dropdown-light .Select-option:hover {
+  background-color: #F5F5F5 !important; /* Couleur au survol */
+  color: #333333 !important;
+}
+
+/* Switch Light/Dark Mode */
+.switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background-color: #CCCCCC;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  transition: background-color 0.3s ease; /* Animation de couleur */
+}
+
+.switch .toggle {
+  width: 20px;
+  height: 20px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 5px; /* Position initiale pour Light */
+  transition: all 0.3s ease; /* Animation fluide */
+}
+
+/* Mode sombre */
+.switch.active {
+  background-color: #333333; /* Couleur pour le mode sombre */
+}
+
+.switch.active .toggle {
+  left: 35px; /* Position pour Dark */
 }

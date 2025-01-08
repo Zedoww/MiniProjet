@@ -10,7 +10,8 @@ def kpi_cards(theme):
         'display': 'flex',
         'flexDirection': 'column',
         'alignItems': 'center',
-        'justifyContent': 'center'
+        'justifyContent': 'center',
+        'transition': 'all 0.3s ease-in-out'
     }
 
     label_style = {
@@ -18,7 +19,8 @@ def kpi_cards(theme):
         'color': theme['secondary_text'],
         'fontSize': '14px',
         'marginTop': '5px',
-        'fontWeight': '500'
+        'fontWeight': '500',
+        'transition': 'all 0.3s ease-in-out'
     }
 
     value_style = {
@@ -26,37 +28,36 @@ def kpi_cards(theme):
         'fontWeight': 'bold',
         'fontSize': '28px',
         'color': theme['text_color'],
-        'margin': '0'
+        'margin': '0',
+        'transition': 'all 0.3s ease-in-out'
     }
 
+    # Optionnel, si tu utilises des emojis
     emoji_style = {
         'fontSize': '32px',
         'textAlign': 'center',
         'marginBottom': '5px',
-        'color': theme['emoji_color']
+        'color': theme['emoji_color'],
+        'transition': 'all 0.3s ease-in-out'
     }
 
     return html.Div([
         html.Div([
-            html.Div("🌡️", style=emoji_style),
             html.H4("Température maximale", style=label_style),
             html.P(id='max-temp-24h', style=value_style),
         ], style=card_style),
 
         html.Div([
-            html.Div("❄️", style=emoji_style),
             html.H4("Température minimale", style=label_style),
             html.P(id='min-temp-24h', style=value_style),
         ], style=card_style),
 
         html.Div([
-            html.Div("🌧️", style=emoji_style),
             html.H4("Précipitations totales", style=label_style),
             html.P(id='total-precipitation', style=value_style),
         ], style=card_style),
 
         html.Div([
-            html.Div("☔", style=emoji_style),
             html.H4("Jours de précipitations", style=label_style),
             html.P(id='precipitation-days', style=value_style),
         ], style=card_style)
