@@ -1,6 +1,6 @@
 import dash
 from dash import html, dcc
-from .utils.data_loader import load_cleaned_data, load_regions_geojson, load_departements_geojson
+from .utils.data_loader import load_cleaned_data, load_regions_geojson
 from .layout.themes import light_theme, dark_theme
 from .layout.layout import serve_layout
 from .callbacks.callbacks_figures import register_fullscreen_callbacks
@@ -10,7 +10,6 @@ from .callbacks.callbacks_figures import register_figures_callbacks
 # Charger les données
 data = load_cleaned_data()
 france_regions_geojson = load_regions_geojson("data/regions.geojson")
-france_departements_geojson = load_departements_geojson("data/departements.geojson")
 
 # Initialiser l'application Dash
 app = dash.Dash(__name__)
@@ -31,8 +30,11 @@ def serve_app_layout(theme_name='light'):
 
 # Mise en page principale de l'application
 app.layout = html.Div([
-    dcc.Store(id='current-theme', data='light'),  # Correction de l'ID (anciennement 'current-themee')
+    # Store pour stocker le thème (unique)
+    dcc.Store(id='current-theme', data='light'),
+
     html.Div(id='page-content', children=serve_app_layout('light'))
+
 ], style={
     'backgroundColor': '#000000',
     'minHeight': '100vh',
@@ -43,4 +45,4 @@ app.layout = html.Div([
 })
 
 register_general_callbacks(app)
-register_figures_callbacks(app, data, france_regions_geojson, france_departements_geojson)
+register_figures_callbacks(app, data, france_regions_geojson)

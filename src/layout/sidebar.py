@@ -36,7 +36,7 @@ def sidebar(theme, city_options):
                 options=city_options,
                 value=city_options[0]['value'] if city_options else None,
                 placeholder="Sélectionnez une ville",
-                className=f"dropdown {theme_class}",  # Applique la classe conditionnelle (light/dark)
+                className=f"dropdown {theme_class}",
                 clearable=False
             )
         ], style={'marginBottom': '20px'}),
@@ -70,7 +70,7 @@ def sidebar(theme, city_options):
             id='geo-level',
             options=[
                 {'label': ' Région', 'value': 'region'},
-                {'label': ' Département', 'value': 'department'},
+                {'label': ' Ville', 'value': 'city'},
             ],
             value='region',
             labelStyle={

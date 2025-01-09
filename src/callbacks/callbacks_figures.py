@@ -124,7 +124,8 @@ def register_fullscreen_callbacks(app):
             temp_style, precip_style, map_style, hist_style
         )
 
-def register_figures_callbacks(app, data, france_regions_geojson, france_departements_geojson):
+
+def register_figures_callbacks(app, data, france_regions_geojson):
     @app.callback(
         [
             Output('max-temp-24h', 'children'),
@@ -144,16 +145,12 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             Input('geo-level', 'value')
         ]
     )
-    def update_dashboard(date_range, selected_city, theme_value, map_metric, geo_level=None):
-        if geo_level is None:
-            geo_level = "region"
-
+    def update_dashboard(date_range, selected_city, theme_value, map_metric, geo_level):
         start_date = date.fromordinal(date_range[0])
         end_date = date.fromordinal(date_range[1])
 
+        # Filtrer les données de la ville sélectionnée
         city_data = data.loc[data['communes (name)'] == selected_city].copy()
-
-        # Remplissage de NaN si besoin
         city_data['Température maximale sur 24 heures'] = city_data['Température maximale sur 24 heures'].fillna(city_data['Température'])
         city_data['Température minimale sur 24 heures'] = city_data['Température minimale sur 24 heures'].fillna(city_data['Température'])
         city_data['Précipitations dans les 24 dernières heures'] = city_data['Précipitations dans les 24 dernières heures'].fillna(0)
@@ -164,18 +161,22 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             'Précipitations dans les 24 dernières heures': 'mean'
         }).reset_index()
 
-        filtered_data = city_data_daily[(city_data_daily['Date'] >= start_date) & (city_data_daily['Date'] <= end_date)]
-
+        # Filtrer les données par plage de dates
+        filtered_data = city_data_daily[
+            (city_data_daily['Date'] >= start_date) & (city_data_daily['Date'] <= end_date)
+        ]
+        
+        # Gérer les cas où aucune donnée n'est disponible
         if filtered_data.empty:
             return "N/A", "N/A", "N/A", "N/A", {}, {}, {}, {}
 
-        # Conversion de Kelvin en °C (si tes données sont en Kelvin)
+        # Calculer les KPI
         max_temp = round(filtered_data['Température maximale sur 24 heures'].max() - 273.15, 1)
         min_temp = round(filtered_data['Température minimale sur 24 heures'].min() - 273.15, 1)
         total_precipitation = round(filtered_data['Précipitations dans les 24 dernières heures'].sum(), 1)
         precipitation_days = len(filtered_data[filtered_data['Précipitations dans les 24 dernières heures'] > 0])
 
-        # Choisir le thème
+        # Définir le thème
         theme = dark_theme if theme_value == 'dark' else light_theme
 
         # Figures
@@ -183,23 +184,37 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
         precipitation_fig = create_precipitation_bar(filtered_data, theme)
         histogram_fig = create_temperature_histogram(filtered_data, theme)
 
-        global_filtered_data = data[(data['Date'].dt.date >= start_date) & (data['Date'].dt.date <= end_date)]
+        # Données globales pour la carte
+        global_filtered_data = data[
+            (data['Date'].dt.date >= start_date) & (data['Date'].dt.date <= end_date)
+        ].copy()
 
+        # Carte : mode région ou ville
         if geo_level == 'region':
             agg_col = 'region (code)'
-            geojson = france_regions_geojson
-            feature_id_key = 'properties.code'
+            region_data = global_filtered_data.groupby(agg_col, as_index=False).agg({
+                'Température': 'mean',
+                'Précipitations dans les 24 dernières heures': 'mean'
+            })
+            map_fig = create_map_figure(
+                region_data,
+                france_regions_geojson,
+                map_metric,
+                theme,
+                featureidkey='properties.code',
+                geo_level='region',
+                selected_city=selected_city
+            )
         else:
-            agg_col = 'department (code)'
-            geojson = france_departements_geojson
-            feature_id_key = 'properties.code'
-
-        region_or_dept_data = global_filtered_data.groupby(agg_col, as_index=False).agg({
-            'Température': 'mean',
-            'Précipitations dans les 24 dernières heures': 'mean'
-        })
-
-        map_fig = create_map_figure(region_or_dept_data, geojson, map_metric, theme, feature_id_key)
+            map_fig = create_map_figure(
+                global_filtered_data,
+                None,
+                map_metric,
+                theme,
+                featureidkey=None,
+                geo_level='city',
+                selected_city=selected_city
+            )
 
         return (
             f"{max_temp}°C",
@@ -211,3 +226,21 @@ def register_figures_callbacks(app, data, france_regions_geojson, france_departe
             map_fig,
             histogram_fig
         )
+
+    @app.callback(
+        Output('city-dropdown', 'value'),
+        [Input('map-graph', 'clickData')],
+        [State('city-dropdown', 'value')]
+    )
+    
+    def update_city_on_map_click(click_data, current_city):
+        """ Gérer les clics sur la carte pour sélectionner une ville. """
+        if click_data and 'points' in click_data and click_data['points']:
+            try:
+                # Récupérer la ville cliquée
+                city_clicked = click_data['points'][0]['text']
+                if city_clicked:
+                    return city_clicked
+            except (IndexError, KeyError, TypeError):
+                pass
+        return current_city

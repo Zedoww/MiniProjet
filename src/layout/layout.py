@@ -10,7 +10,6 @@ locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
 
 def serve_layout(theme, city_options, min_date, max_date):
     return html.Div([
-        dcc.Store(id='current-theme', data=theme['name']),
         html.Div([
             # Sidebar
             sidebar(theme, city_options),
