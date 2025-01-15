@@ -12,19 +12,7 @@ def sidebar(theme, city_options):
             # Titre de la sidebar
             html.H2("Menu", className="sidebar-title"),
             
-            # Switch Light/Dark Mode
-            html.Div(
-                className="theme-switch-container",
-                children=[
-                    html.Span("Light", className="theme-label"),
-                    html.Div(
-                        id="theme-switch",
-                        className=f"switch {'active' if theme['name'] == 'dark' else ''}",
-                        children=[html.Div(className="toggle")],
-                    ),
-                    html.Span("Dark", className="theme-label"),
-                ],
-            ),
+            
 
             # Sélection de la ville
             html.Div(
@@ -77,6 +65,20 @@ def sidebar(theme, city_options):
                         inputClassName="radio-input",
                         labelClassName="radio-label",
                     ),
+                ],
+            ),
+
+            # Switch Light/Dark Mode
+            html.Div(
+                className="theme-switch-container",
+                children=[
+                    html.Span("Light", className="theme-label"),
+                    html.Div(
+                        id="theme-switch",
+                        className=f"switch {'active' if theme['name'] == 'dark' else ''}",
+                        children=[html.Div(className="toggle")],
+                    ),
+                    html.Span("Dark", className="theme-label"),
                 ],
             ),
         ],

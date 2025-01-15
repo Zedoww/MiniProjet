@@ -80,7 +80,7 @@ body {
 .dropdown-dark {
   background-color: #181818 !important; /* Fond sombre */
   color: #FFFFFF !important; /* Texte blanc */
-  border: 1px solid #555555 !important; /* Bordure grise */
+  border: 1px solid #454444 !important; /* Bordure grise */
 }
 
 .dropdown-dark .Select-control {
@@ -183,11 +183,23 @@ body {
   max-width: 100%;
   border-radius: 14px !important;
 }
-
-#map-graph.fullscreenable:not(.fullscreen) {
-  height: 520px;
-  border-radius: 14px !important;
+/* Graphiques en mode "normal" */
+.graph-container .fullscreenable:not(.fullscreen) {
+  width: 100%;
+  height: 300px; /* Hauteur standard hors plein écran */
+  max-width: 100%;
+  border-radius: 14px !important; /* Coins arrondis */
+  overflow: hidden !important;    
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre légère */
 }
+/* Taille par défaut pour la carte */
+#map-graph.fullscreenable:not(.fullscreen) {
+  height: 520px; 
+  border-radius: 14px !important; /* Coins arrondis */
+  overflow: hidden !important; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre légère */
+}
+
 
 /* Fullscreen Mode */
 .fullscreen {
@@ -299,5 +311,5 @@ body {
 
 .switch.active .toggle {
   left: 34px;
-  background-color: #000000;
+  background-color: #181818;
 }
