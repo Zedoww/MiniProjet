@@ -10,7 +10,150 @@ body {
   box-sizing: border-box;
 }
 
-/* Style pour le RangeSlider */
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #FFFFFF; /* Couleur par défaut pour le mode clair */
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-light {
+  background-color: #FFFFFF;
+  color: #333333;
+}
+
+.sidebar-dark {
+  background-color: #181818;
+  color: #E0E0E0;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Sidebar Sections */
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: inherit;
+}
+
+/* Dropdown clair */
+.dropdown-light {
+  background-color: #FFFFFF !important; /* Fond blanc */
+  color: #333333 !important; /* Texte noir */
+  border: 1px solid #CCCCCC; /* Bordure grise */
+}
+
+.dropdown-light .Select-control,
+.dropdown-light .Select-value,
+.dropdown-light .Select-placeholder {
+  color: #333333 !important; /* Texte noir */
+}
+
+.dropdown-light .Select-menu-outer,
+.dropdown-light .Select-option {
+  background-color: #FFFFFF !important; /* Fond blanc */
+  color: #333333 !important; /* Texte noir */
+}
+
+.dropdown-light .Select-option:hover {
+  background-color: #F5F5F5 !important; /* Fond au survol */
+  color: #333333 !important; /* Texte noir */
+}
+
+/* Dropdown sombre */
+.dropdown-dark {
+  background-color: #181818 !important; /* Fond sombre */
+  color: #FFFFFF !important; /* Texte blanc */
+  border: 1px solid #555555 !important; /* Bordure grise */
+}
+
+.dropdown-dark .Select-control {
+  background-color: #181818 !important; /* Fond sombre */
+  color: #FFFFFF !important; /* Texte blanc */
+  border: none !important;
+}
+
+.dropdown-dark .Select-value {
+  background-color: #181818 !important; /* Fond sombre */
+  color: #FFFFFF !important; /* Texte blanc */
+}
+
+.dropdown-dark .Select-value-label {
+  color: #FFFFFF !important; /* Texte sélectionné blanc */
+}
+
+.dropdown-dark .Select-placeholder {
+  color: #AAAAAA !important; /* Texte placeholder gris clair */
+}
+
+.dropdown-dark .Select-menu-outer,
+.dropdown-dark .Select-option {
+  background-color: #181818 !important; /* Fond sombre */
+  color: #E0E0E0 !important; /* Texte clair */
+}
+
+.dropdown-dark .Select-option:hover {
+  background-color: #333333 !important; /* Fond gris foncé au survol */
+  color: #FFFFFF !important; /* Texte blanc */
+}
+
+
+/* Radio Items */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio-input {
+  margin-right: 10px;
+}
+
+.radio-label {
+  font-size: 14px;
+  color: inherit;
+  cursor: pointer;
+}
+
+.radio-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: #4A90E2;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.radio-button:hover {
+  background-color: #357ABD;
+  transform: scale(1.05);
+}
+
+.radio-button.active {
+  background-color: #1E75C5;
+  border-color: #1E75C5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* RangeSlider */
 .custom-range-slider .rc-slider-track {
   background-color: rgb(75, 144, 226) !important;
 }
@@ -23,35 +166,30 @@ body {
   border: 2px solid rgb(75, 144, 226) !important;
 }
 
-/* Conteneur des graphiques */
+/* Graph Containers */
 .graph-container {
   position: relative;
   margin-bottom: 20px;
   overflow: hidden;
 }
 
-/* Graphiques en mode "normal" (pas fullscreen) */
 .fullscreenable {
   transition: all 0.3s ease-in-out;
 }
 
-/* Taille par défaut (Températures + Précipitations) */
-.graph-container .fullscreenable:not(.fullscreen) {
+.fullscreenable:not(.fullscreen) {
   width: 100%;
-  height: 300px; /* Hauteur standard hors plein écran */
+  height: 300px;
   max-width: 100%;
   border-radius: 14px !important;
-  overflow: hidden !important;    
 }
 
-/* Taille par défaut pour la carte */
 #map-graph.fullscreenable:not(.fullscreen) {
-  height: 520px; 
-  border-radius: 14px !important; 
-  overflow: hidden !important; 
+  height: 520px;
+  border-radius: 14px !important;
 }
 
-/* Mode plein écran */
+/* Fullscreen Mode */
 .fullscreen {
   position: fixed !important;
   top: 0 !important;
@@ -59,16 +197,25 @@ body {
   width: 100vw !important;
   height: 100vh !important;
   z-index: 9998 !important;
-  /* Retirer la ligne ci-dessous pour éviter le fond blanc en Dark Mode */
-  /* background-color: white !important; */
-  background-color: inherit !important; /* hérite du thème */
+  background-color: inherit !important;
   border-radius: 0 !important;
   padding: 0 !important;
-  box-shadow: none !important;
   overflow: hidden !important;
 }
 
-/* Bouton "Plein écran" */
+.fullscreen .fullscreen-button {
+  display: none !important;
+}
+
+.fullscreen .exit-fullscreen-button {
+  display: block !important;
+}
+
+.fullscreen + .graph-container .fullscreen-button {
+  display: none;
+}
+
+/* Fullscreen Buttons */
 .fullscreen-button {
   position: absolute;
   top: 10px;
@@ -80,7 +227,6 @@ body {
   padding: 8px 12px;
   font-size: 12px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 10000;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -90,7 +236,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Bouton "Quitter le plein écran" */
 .exit-fullscreen-button {
   position: fixed;
   top: 20px;
@@ -102,7 +247,6 @@ body {
   padding: 8px 12px;
   font-size: 12px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none;
   z-index: 10001;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -113,67 +257,18 @@ body {
   transform: scale(1.05);
 }
 
-/* En plein écran, masque bouton "Plein écran" et affiche "Quitter" */
-.fullscreen .fullscreen-button {
-  display: none !important;
-}
-.fullscreen .exit-fullscreen-button {
-  display: block !important;
-}
-
-/* Éviter d'afficher les autres boutons quand un graph est en fullscreen */
-.fullscreen + .graph-container .fullscreen-button {
-  display: none;
+/* Theme Switch */
+.theme-switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-/* Dropdown global */
-.Select-control {
-  font-weight: 600;
+.theme-label {
+  font-size: 14px;
 }
 
-/* Dropdown sombre */
-.dropdown-dark .Select-control,
-.dropdown-dark .Select-value,
-.dropdown-dark .Select-placeholder {
-  background-color: #CCCCCC !important; /* Couleur de fond plus sombre */
-  color: #FFFFFF !important; /* Texte blanc */
-  border: 1px solid #555555; /* Bordure visible */
-}
-
-.dropdown-dark .Select-menu-outer,
-.dropdown-dark .Select-option {
-  background-color: #444444 !important; /* Couleur des options */
-  color: #E0E0E0 !important; /* Texte clair */
-  border: none;
-}
-
-.dropdown-dark .Select-option:hover {
-  background-color: #444444 !important; /* Couleur au survol */
-  color: #FFFFFF !important;
-}
-
-/* Dropdown clair */
-.dropdown-light .Select-control,
-.dropdown-light .Select-value,
-.dropdown-light .Select-placeholder {
-  background-color: #FFFFFF !important; /* Fond blanc */
-  color: #333333 !important; /* Texte noir */
-  border: 1px solid #CCCCCC; /* Bordure grise */
-}
-
-.dropdown-light .Select-menu-outer,
-.dropdown-light .Select-option {
-  background-color: #FFFFFF !important; /* Fond blanc */
-  color: #333333 !important; /* Texte noir */
-  border: none;
-}
-
-.dropdown-light .Select-option:hover {
-  background-color: #F5F5F5 !important; /* Couleur au survol */
-  color: #333333 !important;
-}
-
-/* Switch Light/Dark Mode */
 .switch {
   position: relative;
   width: 60px;
@@ -183,8 +278,7 @@ body {
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 5px;
-  transition: background-color 0.3s ease; /* Animation de couleur */
+  transition: background-color 0.3s ease;
   border: 1px solid #959595;
 }
 
@@ -195,19 +289,15 @@ body {
   border-radius: 50%;
   position: absolute;
   top: 4px;
-  left: 4px; /* Position initiale pour Light */
-  transition: all 0.3s ease; /* Animation fluide */
+  left: 4px;
+  transition: all 0.3s ease;
 }
 
-.switch.active .toggle {
-  background-color: #000000;
-}
-
-/* Mode sombre */
 .switch.active {
-  background-color: #616161; /* Couleur pour le mode sombre */
+  background-color: #616161;
 }
 
 .switch.active .toggle {
-  left: 34px; /* Position pour Dark */
+  left: 34px;
+  background-color: #000000;
 }

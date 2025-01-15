@@ -1,90 +1,83 @@
-from dash import dcc, html
+from dash import html, dcc
 
 def sidebar(theme, city_options):
-    theme_class = 'dropdown-dark' if theme['name'] == 'dark' else 'dropdown-light'
+    """
+    Sidebar modernisée avec gestion des températures, précipitations, région et ville.
+    """
+    theme_class = 'sidebar-dark' if theme['name'] == 'dark' else 'sidebar-light'
 
-    return html.Div([
-        html.H2("Menu", style={
-            'color': theme['text_color'], 
-            'marginBottom': '20px',
-            'transition': 'all 0.3s ease-in-out'
-        }),
-        
-        # Switch pour Light/Dark mode
-        html.Div([
-            html.Div("Light", className="theme-label"),
+    return html.Div(
+        className=f"sidebar {theme_class}",
+        children=[
+            # Titre de la sidebar
+            html.H2("Menu", className="sidebar-title"),
+            
+            # Switch Light/Dark Mode
             html.Div(
-                id="theme-switch", 
-                className=f"switch {'active' if theme['name'] == 'dark' else ''}",
+                className="theme-switch-container",
                 children=[
-                    html.Div(className="toggle")
-                ]
+                    html.Span("Light", className="theme-label"),
+                    html.Div(
+                        id="theme-switch",
+                        className=f"switch {'active' if theme['name'] == 'dark' else ''}",
+                        children=[html.Div(className="toggle")],
+                    ),
+                    html.Span("Dark", className="theme-label"),
+                ],
             ),
-            html.Div("Dark", className="theme-label")
-        ], style={
-            'display': 'flex', 
-            'justifyContent': 'space-between', 
-            'alignItems': 'center', 
-            'marginBottom': '20px'
-        }),
 
-        # Ville Dropdown
-        html.Div([
-            html.Div("Ville :", style={'fontWeight': 'bold', 'marginBottom': '10px', 'color': theme['text_color']}),
-            dcc.Dropdown(
-                id='city-dropdown',
-                options=city_options,
-                value=city_options[0]['value'] if city_options else None,
-                placeholder="Sélectionnez une ville",
-                className=f"dropdown {theme_class}",
-                clearable=False
-            )
-        ], style={'marginBottom': '20px'}),
+            # Sélection de la ville
+            html.Div(
+                className="sidebar-section",
+                children=[
+                    html.Label("Ville :", className="sidebar-label"),
+                    dcc.Dropdown(
+                        id='city-dropdown',
+                        options=city_options,
+                        value=city_options[0]['value'] if city_options else None,
+                        placeholder="Sélectionnez une ville",
+                        className=f"dropdown {'dropdown-dark' if theme['name'] == 'dark' else 'dropdown-light'}",
+                        clearable=False,
+                    )
+                ],
+            ),
 
-        html.Hr(style={'marginBottom': '20px', 'borderColor': theme['text_color']}),
+            # Sélection de la métrique
+            html.Div(
+                className="sidebar-section",
+                children=[
+                    html.Label("Sélectionnez une métrique :", className="sidebar-label"),
+                    dcc.RadioItems(
+                        id='map-metric',
+                        options=[
+                            {'label': 'Température', 'value': 'temp'},
+                            {'label': 'Précipitations', 'value': 'precip'},
+                        ],
+                        value='temp',
+                        className="radio-group",
+                        inputClassName="radio-input",
+                        labelClassName="radio-label",
+                    ),
+                ],
+            ),
 
-        # Sélection de la métrique de carte
-        html.Div("Données de carte :", style={
-            'color': theme['text_color'], 
-            'marginBottom': '10px', 
-            'fontWeight': 'bold'
-        }),
-        dcc.RadioItems(
-            id='map-metric',
-            options=[
-                {'label': 'Température', 'value': 'temp'},
-                {'label': 'Précipitations', 'value': 'precip'}
-            ],
-            value='temp',
-            labelStyle={
-                'display': 'block', 
-                'marginBottom': '8px', 
-                'color': theme['text_color']
-            }
-        ),
-
-        html.Hr(style={'marginBottom': '5px', 'borderColor': theme['text_color']}),
-
-        # Sélection du niveau géographique
-        dcc.RadioItems(
-            id='geo-level',
-            options=[
-                {'label': ' Région', 'value': 'region'},
-                {'label': ' Ville', 'value': 'city'},
-            ],
-            value='region',
-            labelStyle={
-                'display': 'block', 
-                'marginBottom': '8px', 
-                'color': theme['text_color']
-            }
-        ),
-        html.Div("À venir... 🚧⏳", style={'color': theme['text_color'], 'marginTop': '20px'}),
-
-    ], style={
-        'width': '200px',
-        'backgroundColor': theme['card_background'],
-        'padding': '20px',
-        'boxSizing': 'border-box',
-        'transition': 'all 0.3s ease-in-out'
-    })
+            # Sélection du niveau géographique
+            html.Div(
+                className="sidebar-section",
+                children=[
+                    html.Label("Niveau géographique :", className="sidebar-label"),
+                    dcc.RadioItems(
+                        id='geo-level',
+                        options=[
+                            {'label': 'Région', 'value': 'region'},
+                            {'label': 'Ville', 'value': 'city'},
+                        ],
+                        value='region',
+                        className="radio-group",
+                        inputClassName="radio-input",
+                        labelClassName="radio-label",
+                    ),
+                ],
+            ),
+        ],
+    )
