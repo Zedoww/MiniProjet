@@ -152,8 +152,8 @@ def create_map_figure(
 
         # Remplir les NaN dans la taille pour éviter les erreurs
         grouped['val_metric'] = grouped['val_metric'].fillna(0)
-        grouped['size'] = grouped['val_metric'].apply(lambda x: max(10, min(20, x)))  # Limiter la taille
-        grouped['opacity'] = 0.9  # Rendre les marqueurs visibles
+        grouped['size'] = grouped['val_metric'].apply(lambda x: max(10, min(20, x)))
+        grouped['opacity'] = 0.9
 
         fig = go.Figure()
 
@@ -175,8 +175,8 @@ def create_map_figure(
                         tickfont=dict(color=theme['text_color'])
                     )
                 ),
-                text=grouped['communes (name)'],  # Afficher le nom de la ville
-                customdata=grouped['communes (name)'],  # Nom des villes pour hover
+                text=grouped['communes (name)'],
+                customdata=grouped['communes (name)'],
                 hovertemplate="<b>%{text}</b><br>Métrique: %{marker.color:.2f}<extra></extra>",
                 showlegend=False 
             )
@@ -184,15 +184,20 @@ def create_map_figure(
 
         # Mettre en avant la ville sélectionnée
         if selected_city in grouped['communes (name)'].values:
-            selected_row = grouped[grouped['communes (name)'] == selected_city]
+            selected_row = grouped[grouped['communes (name)'] == selected_city].iloc[0]
+            lat = selected_row['Latitude']
+            lon = selected_row['Longitude']
+            val = selected_row['val_metric']
+
+            # 1) Grand cercle (blanc ou noir selon le thème)
             fig.add_trace(
                 go.Scattermapbox(
-                    lat=selected_row['Latitude'],
-                    lon=selected_row['Longitude'],
+                    lat=[lat],
+                    lon=[lon],
                     mode='markers',
                     marker=go.scattermapbox.Marker(
-                        size=25,
-                        color="red",
+                        size=45,
+                        color="#2C2C2C" if theme['name'] == 'dark' else "white",
                         opacity=1
                     ),
                     hoverinfo="skip",
@@ -200,9 +205,62 @@ def create_map_figure(
                 )
             )
 
+            # 2) Cercle bleu moyen
+            fig.add_trace(
+                go.Scattermapbox(
+                    lat=[lat],
+                    lon=[lon],
+                    mode='markers',
+                    marker=go.scattermapbox.Marker(
+                        size=38,
+                        color=[val],
+                        colorscale='RdYlBu_r' if map_metric == 'temp' else 'Blues',
+                        cmin=grouped['val_metric'].min(),
+                        cmax=grouped['val_metric'].max(),
+                        opacity=1,
+                        showscale=False
+                    ),
+                    hoverinfo="skip",
+                    showlegend=False
+                )
+            )
+
+            # 3) Petit cercle (blanc ou noir selon le thème)
+            fig.add_trace(
+                go.Scattermapbox(
+                    lat=[lat],
+                    lon=[lon],
+                    mode='markers',
+                    marker=go.scattermapbox.Marker(
+                        size=33,
+                        color="#2C2C2C" if theme['name'] == 'dark' else "white",
+                        opacity=1
+                    ),
+                    hoverinfo="skip",
+                    showlegend=False
+                )
+            )
+
+            # 4) Texte au centre (valeur entière)
+            fig.add_trace(
+                go.Scattermapbox(
+                    lat=[lat],
+                    lon=[lon],
+                    mode='text',
+                    text=[str(int(round(val, 0)))] if map_metric == 'temp' else round(val, 1),
+                    textposition='middle center',
+                    textfont=dict(
+                        size=16,
+                        color='white' if theme['name'] == 'dark' else "black"
+                    ),
+                    hoverinfo='none',
+                    showlegend=False
+                )
+            )
+
         fig.update_layout(
             mapbox_style=mapbox_style,
-            mapbox_zoom=5,
+            mapbox_zoom=4.5,
             mapbox_center={"lat": 46.5, "lon": 2},
             margin={'r': 0, 't': 50, 'l': 0, 'b': 0},
             paper_bgcolor=theme['card_background'],
