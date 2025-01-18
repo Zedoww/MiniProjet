@@ -81,9 +81,13 @@ button, input, select {
   flex-direction: column;
   gap: 10px;
   padding-bottom: 20px; /* Ajout d'espace interne au bas des sections */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Ligne plus subtile */
+  border-bottom: 1px solid rgba(61, 61, 61, 0.507); /* Ligne plus subtile */
   margin-bottom: 15px; /* Espacement entre les sections */
   transition: all 0.3s ease-in-out;
+}
+
+.dark-theme .sidebar-section {
+  border-bottom: 2px solid #FFFFFF; /* Ligne blanche en mode sombre */
 }
 
 
@@ -352,8 +356,7 @@ button, input, select {
 
 /* === SWITCH STYLE === */
 .theme-switch-container {
-  margin-top: auto; /* Assure que le switch reste en bas */
-
+  margin-bottom: auto; /* Assure que le switch reste en bas */
   display: flex;
   align-items: center; /* Centrer verticalement */
   justify-content: center; /* Centrer horizontalement */
