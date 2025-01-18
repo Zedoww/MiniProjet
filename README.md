@@ -197,6 +197,12 @@ Le projet vise à explorer et visualiser les données géographiques et statisti
 - ### Perspectives climatiques
   Les tendances relevées pourraient indiquer des changements climatiques régionaux. Une analyse sur plusieurs années serait nécessaire pour confirmer ces patterns émergents.
 
+# 🎥 Vidéo de Démonstration
+
+Présentation complète du Dashboard à travers cette vidéo de démonstration :
+
+
+  
 # 📜 Copyright
 
 Je déclare sur l’honneur que le code fourni a été produit par moi/nous-même, à l’exception des lignes ci-dessous :
