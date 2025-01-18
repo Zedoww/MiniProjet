@@ -65,5 +65,5 @@ def kpi_cards(theme):
         'display': 'grid',
         'gridTemplateColumns': 'repeat(4, 1fr)',
         'gap': '20px',
-        'marginBottom': '30px'
+        'marginBottom': '20px'
     })

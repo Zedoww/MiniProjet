@@ -28,7 +28,7 @@ body {
 }
 
 .sidebar-dark {
-  background-color: #181818;
+  background-color: #202020;
   color: #E0E0E0;
 }
 
@@ -36,7 +36,7 @@ body {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 /* Sidebar Sections */
@@ -166,11 +166,25 @@ body {
   border: 2px solid rgb(75, 144, 226) !important;
 }
 
+.custom-range-slider {
+  overflow: visible !important; /* Permet les débordements */
+  position: relative; /* Positionnement explicite */
+}
+
+.custom-range-slider .rc-slider-tooltip {
+  white-space: nowrap; /* Empêche les coupures de texte */
+  overflow: visible; /* Autorise les débordements */
+  position: absolute !important; /* Fixe les positionnements */
+  z-index: 1000; /* Priorise les tooltips */
+}
 /* Graph Containers */
 .graph-container {
+  background-color: var(--background-color); /* Variable pour s'adapter au thème */
+  border-radius: 14px;
+  overflow: hidden; /* Coupe l'ombre extérieure */
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ombre interne */
   position: relative;
-  margin-bottom: 20px;
-  overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .fullscreenable {

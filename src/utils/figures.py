@@ -13,16 +13,27 @@ def create_temperature_figure(filtered_data, theme):
             },
         ],
         'layout': {
-            'title': {'text': 'Températures', 'font': {'color': theme['text_color'], 'size': 16}},
-            'xaxis': {'title': 'Date', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
-            'yaxis': {'title': 'Température (°C)', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
+            'title': {'text': 'Températures', 'font': {'color': theme['text_color'], 'size': 16}, 'x': 0.5},
+            'xaxis': {
+                'title': {'text': 'Date', 'standoff': 15},
+                'color': theme['text_color'],
+                'gridcolor': theme['grid_color'],
+                'automargin': True
+            },
+            'yaxis': {
+                'title': {'text': 'Température (°C)', 'standoff': 10},
+                'color': theme['text_color'],
+                'gridcolor': theme['grid_color'],
+                'automargin': True
+            },
             'plot_bgcolor': theme['card_background'],
             'paper_bgcolor': theme['card_background'],
             'font': {'color': theme['text_color']},
-            'margin': {'l': 50, 'r': 20, 't': 50, 'b': 50}
+            'margin': {'l': 50, 'r': 20, 't': 50, 'b': 55}
         }
     }
     return fig
+
 
 def create_precipitation_bar(filtered_data, theme):
     fig = {
@@ -36,22 +47,33 @@ def create_precipitation_bar(filtered_data, theme):
             }
         ],
         'layout': {
-            'title': {'text': 'Précipitations', 'font': {'color': theme['text_color'], 'size': 16}},
-            'xaxis': {'title': 'Date', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
-            'yaxis': {'title': 'Précipitations (mm)', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
+            'title': {'text': 'Précipitations', 'font': {'color': theme['text_color'], 'size': 16}, 'x': 0.5},
+            'xaxis': {
+                'title': {'text': 'Date', 'standoff': 15},
+                'color': theme['text_color'],
+                'gridcolor': theme['grid_color'],
+                'automargin': True
+            },
+            'yaxis': {
+                'title': {'text': 'Précipitations (mm)', 'standoff': 10},
+                'color': theme['text_color'],
+                'gridcolor': theme['grid_color'],
+                'automargin': True
+            },
             'plot_bgcolor': theme['card_background'],
             'paper_bgcolor': theme['card_background'],
             'font': {'color': theme['text_color']},
-            'margin': {'l': 50, 'r': 20, 't': 50, 'b': 50}
+            'margin': {'l': 50, 'r': 20, 't': 50, 'b': 55}
         }
     }
     return fig
+
 
 def create_temperature_histogram(filtered_data, theme):
     temperatures = filtered_data['Température maximale sur 24 heures'] - 273.15
 
     fig = px.histogram(
-        temperatures,
+        filtered_data,
         x=temperatures,
         nbins=30,
         title='Distribution des Températures Maximales sur l\'Année',
@@ -66,12 +88,22 @@ def create_temperature_histogram(filtered_data, theme):
             'font': {'color': theme['text_color'], 'size': 16},
             'x': 0.5
         },
-        xaxis={'title': 'Température (°C)', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
-        yaxis={'title': 'Fréquence', 'color': theme['text_color'], 'gridcolor': theme['grid_color']},
+        xaxis={
+            'title': {'text': 'Température (°C)', 'standoff': 15},
+            'color': theme['text_color'],
+            'gridcolor': theme['grid_color'],
+            'automargin': True
+        },
+        yaxis={
+            'title': {'text': 'Fréquence', 'standoff': 10},
+            'color': theme['text_color'],
+            'gridcolor': theme['grid_color'],
+            'automargin': True
+        },
         plot_bgcolor=theme['card_background'],
         paper_bgcolor=theme['card_background'],
         font={'color': theme['text_color']},
-        margin={'l': 50, 'r': 20, 't': 50, 'b': 50}
+        margin={'l': 50, 'r': 20, 't': 50, 'b': 55}
     )
 
     return fig
@@ -124,6 +156,7 @@ def create_map_figure(
             title={
                 'text': color_label,
                 'font': {'color': theme['text_color'], 'size': 18},
+                'y': 0.965,
                 'x': 0.5
             },
             paper_bgcolor=theme['card_background'],
@@ -132,9 +165,12 @@ def create_map_figure(
             margin={'r': 0, 't': 50, 'l': 0, 'b': 0},
         )
         fig.update_coloraxes(colorbar=dict(
-            title=color_label,
+            title="Moyenne   (°C)" if map_metric == 'temp' else "Moyenne (mm)",
             titlefont=dict(color=theme['text_color']),
-            tickfont=dict(color=theme['text_color'])
+            tickfont=dict(color=theme['text_color']),
+            x=1.01,
+            xanchor='left',
+            tickvals=None
         ))
     else:
         # Mode Ville
@@ -170,9 +206,12 @@ def create_map_figure(
                     opacity=grouped['opacity'],
                     showscale=True,
                     colorbar=dict(
-                        title=color_label,
+                        title="Moyenne   (°C)" if map_metric == 'temp' else "Moyenne (mm)",
                         titlefont=dict(color=theme['text_color']),
-                        tickfont=dict(color=theme['text_color'])
+                        tickfont=dict(color=theme['text_color']),
+                        x=1.01,
+                        xanchor='left',
+                        tickvals=None
                     )
                 ),
                 text=grouped['communes (name)'],
@@ -259,6 +298,12 @@ def create_map_figure(
             )
 
         fig.update_layout(
+            title={
+                'text': color_label,  # Utilisation du même label que dans le mode région
+                'font': {'color': theme['text_color'], 'size': 18},
+                'y': 0.965,
+                'x': 0.5  # Centrer le titre
+            },
             mapbox_style=mapbox_style,
             mapbox_zoom=4.5,
             mapbox_center={"lat": 46.5, "lon": 2},
@@ -266,5 +311,6 @@ def create_map_figure(
             paper_bgcolor=theme['card_background'],
             font=dict(color=theme['text_color']),
         )
+        
 
     return fig

@@ -46,7 +46,7 @@ def serve_layout(theme, city_options, min_date, max_date):
                     'padding': '20px',
                     'borderRadius': '14px',
                     'boxShadow': theme['box_shadow'],
-                    'marginBottom': '20px',
+                    'marginBottom': '15px',
                     'transition': 'all 0.3s ease-in-out'
                 }),
 
@@ -72,12 +72,15 @@ def serve_layout(theme, city_options, min_date, max_date):
                         className="custom-range-slider"
                     )
                 ], style={
-                    'margin': '30px 0',
-                    'padding': '10px',
+                    'margin': '20px 0',
+                    'padding': '15px 25px', 
                     'borderRadius': '14px',
                     'backgroundColor': theme['card_background'],
                     'boxShadow': theme['box_shadow'],
-                    'transition': 'all 0.3s ease-in-out'
+                    'transition': 'all 0.3s ease-in-out',
+                    'marginLeft': 'auto',
+                    'marginRight': 'auto',
+                    'overflow': 'visible'
                 }),
 
                 # KPI Cards
@@ -89,7 +92,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                         dcc.Graph(
                             id='temp-graph',
                             className='fullscreenable',
-                            style={}
                         ),
                         html.Button(
                             "⛶",
@@ -141,7 +143,7 @@ def serve_layout(theme, city_options, min_date, max_date):
                     'display': 'grid',
                     'gridTemplateColumns': 'repeat(3, 1fr)',
                     'gap': '20px',
-                    'marginBottom': '20px'
+                    'marginBottom': '15px'
                 }),
 
                 # Graphique Carte
