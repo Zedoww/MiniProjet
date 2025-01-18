@@ -200,8 +200,7 @@ Le projet vise à explorer et visualiser les données géographiques et statisti
 # 🎥 Vidéo de Démonstration
 
 Présentation complète du Dashboard à travers cette vidéo de démonstration :
-
-
+[Regarder la vidéo](https://github.com/Zedoww/MiniProjet/blob/d9ef202e45dcd12fa6ef2732d2a485ce5d0b84cf/Presentation_DashboardCompressed.mp4)
   
 # 📜 Copyright
 
