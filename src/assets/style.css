@@ -383,7 +383,7 @@ button, input, select {
 }
 
 .fullscreenable {
-  transition: all 0.3s ease-in-out;
+  transition: none !important;
 }
 
 .fullscreenable:not(.fullscreen) {
@@ -423,6 +423,24 @@ button, input, select {
   cursor: pointer;
   z-index: 10000;
   transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.fullscreenable.fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  overflow: hidden;
+  border-radius: 0 !important;
+  transition: none !important;
+}
+
+.graph-container:hover,
+.fullscreenable:hover {
+    box-shadow: none !important;
+    transform: none !important;
 }
 
 .fullscreen-button:hover {
