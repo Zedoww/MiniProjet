@@ -5,8 +5,12 @@ from .kpi_cards import kpi_cards
 import pandas as pd
 from datetime import date
 import locale
+import plotly.io as pio
+
 
 locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
+# Supprimer la template par défaut
+pio.templates.default = None
 
 def serve_layout(theme, city_options, min_date, max_date):
     return html.Div([
@@ -119,7 +123,6 @@ def serve_layout(theme, city_options, min_date, max_date):
                             "Quitter le plein écran",
                             id='exit-fullscreen-precipitation-bar-btn',
                             className='exit-fullscreen-button',
-                            style={'display': 'none'}
                         )
                     ], className='graph-container'),
 
@@ -145,6 +148,7 @@ def serve_layout(theme, city_options, min_date, max_date):
                     'gap': '20px',
                     'marginBottom': '15px'
                 }),
+
 
                 # Graphique Carte
                 html.Div([
@@ -179,7 +183,7 @@ def serve_layout(theme, city_options, min_date, max_date):
             'padding': '0'
         })
     ], style={
-        'fontFamily': '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif',
+        
         'backgroundColor': theme['background'],
         'color': theme['text_color'],
         'width': '100%',

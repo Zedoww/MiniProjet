@@ -11,8 +11,13 @@ from .callbacks.callbacks_figures import register_figures_callbacks
 data = load_cleaned_data()
 france_regions_geojson = load_regions_geojson("data/regions.geojson")
 
+# Lien vers Google Fonts (Nunito Sans)
+external_stylesheets = [
+    "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap"
+]
+
 # Initialiser l'application Dash
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Tableau de bord historique météo"
 register_fullscreen_callbacks(app)
 

@@ -1,34 +1,73 @@
-/* Réinitialisation des marges et paddings */
-body {
-  display: block;
-  margin: 0;
-}
-
+/* === GLOBAL STYLES === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Nunito Sans' !important;
+
 }
 
-/* Sidebar */
+body {
+  display: block;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Titres */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600; /* Gras pour les titres */
+}
+
+/* Textes spécifiques */
+.sidebar-label, .radio-label, .theme-label {
+  font-weight: 400; /* Texte régulier */
+  font-size: 14px;
+}
+
+.dropdown-light, .dropdown-dark {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Kpi Cards */
+.kpi-card {
+  font-size: 16px;
+  font-weight: 600; /* Un peu plus gras pour les chiffres */
+}
+
+/* Autres éléments */
+button, input, select {
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+}
+
+
+/* === SIDEBAR STYLES === */
 .sidebar {
   width: 250px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #FFFFFF; /* Couleur par défaut pour le mode clair */
+  background-color: #FFFFFF;
   border-radius: 10px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ajout d'ombre par défaut */
+  height: 100%; /* Prend toute la hauteur de la page */
+  justify-content: space-between; /* Place le contenu en haut et en bas */
+
+}
+
+.sidebar:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Ombre au survol */
 }
 
 .sidebar-light {
-  background-color: #FFFFFF;
+  background: linear-gradient(135deg, #FFFFFF, #F5F5F5);
   color: #333333;
 }
 
 .sidebar-dark {
-  background-color: #202020;
+  background: linear-gradient(135deg, #202020, #181818);
   color: #E0E0E0;
 }
 
@@ -37,9 +76,9 @@ body {
   font-weight: bold;
   text-align: center;
   margin-bottom: 10px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Sidebar Sections */
 .sidebar-section {
   display: flex;
   flex-direction: column;
@@ -47,113 +86,172 @@ body {
 }
 
 .sidebar-label {
-  font-size: 14px;
-  font-weight: bold;
+  color: inherit;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .fas {
+  margin-right: 8px;
   color: inherit;
 }
 
-/* Dropdown clair */
+/* === DROPDOWN STYLES === */
 .dropdown-light {
-  background-color: #FFFFFF !important; /* Fond blanc */
-  color: #333333 !important; /* Texte noir */
-  border: 1px solid #CCCCCC; /* Bordure grise */
+  background-color: #FFFFFF !important;
+  color: #333333 !important;
+  border: none !important; /* Suppression complète de la bordure */
+  border-radius: 10px; /* Bords arrondis pour un design moderne */
+  padding: 6px; /* Augmentation légère pour plus d'espace */
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown-light:hover {
+  border-color: #4A90E2; /* Bordure bleue au survol */
+  box-shadow: 0 6px 15px rgba(74, 144, 226, 0.2); /* Ombre plus visible */
 }
 
 .dropdown-light .Select-control,
 .dropdown-light .Select-value,
 .dropdown-light .Select-placeholder {
-  color: #333333 !important; /* Texte noir */
+  color: #333333 !important;
+  border: none !important; /* Suppression complète de la bordure */
+
 }
 
 .dropdown-light .Select-menu-outer,
 .dropdown-light .Select-option {
-  background-color: #FFFFFF !important; /* Fond blanc */
-  color: #333333 !important; /* Texte noir */
+  background-color: #FFFFFF !important;
+  color: #333333 !important;
+  border-radius: 10px; /* Ajout d'arrondi aux options */
+  border: none !important; /* Suppression complète de la bordure */
+
 }
 
 .dropdown-light .Select-option:hover {
-  background-color: #F5F5F5 !important; /* Fond au survol */
-  color: #333333 !important; /* Texte noir */
+  background-color: #F5F5F5 !important;
+  color: #333333 !important;
 }
 
-/* Dropdown sombre */
 .dropdown-dark {
-  background-color: #181818 !important; /* Fond sombre */
-  color: #FFFFFF !important; /* Texte blanc */
-  border: 1px solid #454444 !important; /* Bordure grise */
+  background-color: #181818 !important;
+  color: #FFFFFF !important;
+  border: none !important; /* Suppression complète de la bordure */
+  border-radius: 10px; /* Bords arrondis pour uniformité */
+  padding: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown-dark:hover {
+  border-color: #4A90E2; /* Bordure bleue au survol */
+  box-shadow: 0 6px 15px rgba(74, 144, 226, 0.2); /* Ombre plus visible */
 }
 
 .dropdown-dark .Select-control {
-  background-color: #181818 !important; /* Fond sombre */
-  color: #FFFFFF !important; /* Texte blanc */
+  background-color: #181818 !important;
+  color: #FFFFFF !important;
   border: none !important;
 }
 
 .dropdown-dark .Select-value {
-  background-color: #181818 !important; /* Fond sombre */
-  color: #FFFFFF !important; /* Texte blanc */
+  background-color: #181818 !important;
+  color: #FFFFFF !important;
 }
 
 .dropdown-dark .Select-value-label {
-  color: #FFFFFF !important; /* Texte sélectionné blanc */
+  color: #FFFFFF !important;
 }
 
 .dropdown-dark .Select-placeholder {
-  color: #AAAAAA !important; /* Texte placeholder gris clair */
+  color: #AAAAAA !important;
 }
 
 .dropdown-dark .Select-menu-outer,
 .dropdown-dark .Select-option {
-  background-color: #181818 !important; /* Fond sombre */
-  color: #E0E0E0 !important; /* Texte clair */
+  background-color: #181818 !important;
+  color: #E0E0E0 !important;
+  border-radius: 10px; /* Ajout d'arrondi aux options */
 }
 
 .dropdown-dark .Select-option:hover {
-  background-color: #333333 !important; /* Fond gris foncé au survol */
-  color: #FFFFFF !important; /* Texte blanc */
+  background-color: #333333 !important;
+  color: #FFFFFF !important;
 }
 
 
-/* Radio Items */
+/* === RADIO BUTTON STYLES === */
 .radio-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.radio-input {
-  margin-right: 10px;
-}
-
 .radio-label {
-  font-size: 14px;
-  color: inherit;
-  cursor: pointer;
-}
-
-.radio-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   padding: 10px 15px;
   font-size: 14px;
+  font-weight: bold;
   border-radius: 8px;
-  border: 1px solid transparent;
+  cursor: pointer;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.radio-label:hover {
+  background-color: #4A90E2; /* Couleur au survol */
+  color: #FFFFFF; /* Texte blanc au survol */
+}
+
+.radio-label.active {
+  background-color: #4A90E2; /* Couleur de l'option sélectionnée */
+  color: #FFFFFF; /* Texte blanc */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Mode Light */
+.light-theme .radio-label {
+  color: #333333; /* Texte sombre en mode light */
+}
+
+.light-theme .radio-label:hover {
+  background-color: #E0E0E0; /* Gris clair au survol */
+  color: #000000; /* Texte noir */
+}
+
+.light-theme .radio-label.active {
+  background-color: #4A90E2; /* Couleur de sélection identique pour cohérence */
+  color: #FFFFFF;
+}
+
+/* Mode Dark */
+.dark-theme .radio-label {
+  color: #E0E0E0; /* Texte clair en mode dark */
+}
+
+.dark-theme .radio-label:hover {
   background-color: #4A90E2;
   color: #FFFFFF;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.radio-button:hover {
-  background-color: #357ABD;
-  transform: scale(1.05);
+.dark-theme .radio-label.active {
+  background-color: #4A90E2;
+  color: #FFFFFF;
 }
 
-.radio-button.active {
-  background-color: #1E75C5;
-  border-color: #1E75C5;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+/* Cache les cercles radio natifs */
+.radio-input {
+  display: none;
 }
 
-/* RangeSlider */
+
+/* === RANGE SLIDER STYLES === */
 .custom-range-slider .rc-slider-track {
   background-color: rgb(75, 144, 226) !important;
 }
@@ -167,24 +265,121 @@ body {
 }
 
 .custom-range-slider {
-  overflow: visible !important; /* Permet les débordements */
-  position: relative; /* Positionnement explicite */
+  overflow: visible !important;
+  position: relative;
 }
 
 .custom-range-slider .rc-slider-tooltip {
-  white-space: nowrap; /* Empêche les coupures de texte */
-  overflow: visible; /* Autorise les débordements */
-  position: absolute !important; /* Fixe les positionnements */
-  z-index: 1000; /* Priorise les tooltips */
+  white-space: nowrap;
+  overflow: visible;
+  position: absolute !important;
+  z-index: 1000;
 }
-/* Graph Containers */
-.graph-container {
-  background-color: var(--background-color); /* Variable pour s'adapter au thème */
-  border-radius: 14px;
-  overflow: hidden; /* Coupe l'ombre extérieure */
-  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ombre interne */
+
+/* === SWITCH STYLE === */
+.theme-switch-container {
+  margin-top: auto; /* Assure que le switch reste en bas */
+
+  display: flex;
+  align-items: center; /* Centrer verticalement */
+  justify-content: center; /* Centrer horizontalement */
+  gap: 10px;
+}
+
+.switch {
   position: relative;
+  width: 80px; /* Largeur étendue pour inclure les icônes */
+  height: 40px;
+  background-color: #FFECB3; /* Fond pour le mode Light */
+  border-radius: 20px; /* Arrondi pour le switch */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  transition: background-color 0.4s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+}
+
+.switch .toggle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #FFD54F; /* Jaune pour le soleil */
+  border-radius: 50%;
+  left: 5px;
+  top: 50%; /* Centrer verticalement */
+  transform: translateY(-50%);
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Ombre subtile pour le cercle */
+}
+
+.switch.active {
+  background-color: #263238; /* Fond pour le mode Dark */
+}
+
+.switch.active .toggle {
+  background-color: #4FC3F7; /* Bleu pour la lune */
+  left: calc(100% - 35px); /* Position à droite */
+}
+
+/* Soleil et Lune */
+.switch .toggle::before, 
+.switch .toggle::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  transition: opacity 0.4s ease; /* Transition fluide pour la visibilité */
+}
+
+.switch .toggle::before {
+  content: '☀'; /* Soleil */
+  color: #FFFFFF; /* Blanc pour l'icône */
+  opacity: 1; /* Soleil visible par défaut */
+}
+
+.switch .toggle::after {
+  content: '🌙'; /* Lune */
+  color: #FFFFFF; /* Blanc pour l'icône */
+  opacity: 0; /* Lune cachée par défaut */
+}
+
+.switch.active .toggle::before {
+  opacity: 0; /* Soleil disparaît */
+}
+
+.switch.active .toggle::after {
+  opacity: 1; /* Lune apparaît */
+}
+
+/* Texte Light et Dark */
+.theme-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: inherit;
+}
+
+/* === GRAPH STYLES === */
+.graph-container {
+  background-color: var(--background-color);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  max-width: 100%;
   margin-bottom: 10px;
+}
+
+.graph-container:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .fullscreenable {
@@ -197,51 +392,24 @@ body {
   max-width: 100%;
   border-radius: 14px !important;
 }
-/* Graphiques en mode "normal" */
+
 .graph-container .fullscreenable:not(.fullscreen) {
   width: 100%;
-  height: 300px; /* Hauteur standard hors plein écran */
+  height: 300px;
   max-width: 100%;
-  border-radius: 14px !important; /* Coins arrondis */
-  overflow: hidden !important;    
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre légère */
-}
-/* Taille par défaut pour la carte */
-#map-graph.fullscreenable:not(.fullscreen) {
-  height: 520px; 
-  border-radius: 14px !important; /* Coins arrondis */
-  overflow: hidden !important; 
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre légère */
-}
-
-
-/* Fullscreen Mode */
-.fullscreen {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 9998 !important;
-  background-color: inherit !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
+  border-radius: 14px !important;
   overflow: hidden !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.fullscreen .fullscreen-button {
-  display: none !important;
+#map-graph.fullscreenable:not(.fullscreen) {
+  height: 520px;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.fullscreen .exit-fullscreen-button {
-  display: block !important;
-}
-
-.fullscreen + .graph-container .fullscreen-button {
-  display: none;
-}
-
-/* Fullscreen Buttons */
+/* === FULLSCREEN BUTTONS === */
 .fullscreen-button {
   position: absolute;
   top: 10px;
@@ -283,47 +451,15 @@ body {
   transform: scale(1.05);
 }
 
-/* Theme Switch */
-.theme-switch-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
 
-.theme-label {
-  font-size: 14px;
-}
 
-.switch {
-  position: relative;
-  width: 60px;
-  height: 30px;
-  background-color: #CCCCCC;
-  border-radius: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: background-color 0.3s ease;
-  border: 1px solid #959595;
-}
 
-.switch .toggle {
-  width: 20px;
-  height: 20px;
-  background-color: #FFFFFF;
-  border-radius: 50%;
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  transition: all 0.3s ease;
+/* === KPI CARDS === */
+.kpi-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  max-width: 100%;
 }
-
-.switch.active {
-  background-color: #616161;
-}
-
-.switch.active .toggle {
-  left: 34px;
-  background-color: #181818;
-}
+ 

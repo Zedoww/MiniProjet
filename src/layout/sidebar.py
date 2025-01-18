@@ -1,24 +1,22 @@
-from dash import html, dcc
+from dash import html, dcc, callback, Input, Output
 
 def sidebar(theme, city_options):
-    """
-    Sidebar modernisée avec gestion des températures, précipitations, région et ville.
-    """
     theme_class = 'sidebar-dark' if theme['name'] == 'dark' else 'sidebar-light'
 
     return html.Div(
         className=f"sidebar {theme_class}",
         children=[
-            # Titre de la sidebar
+            # Titre
             html.H2("Menu", className="sidebar-title"),
             
-            
-
-            # Sélection de la ville
+            # Section Ville
             html.Div(
                 className="sidebar-section",
                 children=[
-                    html.Label("Ville :", className="sidebar-label"),
+                    html.Label(
+                        [html.I(className="fas fa-map-marker-alt"), " Ville :"],
+                        className="sidebar-label"
+                    ),
                     dcc.Dropdown(
                         id='city-dropdown',
                         options=city_options,
@@ -29,12 +27,15 @@ def sidebar(theme, city_options):
                     )
                 ],
             ),
-
-            # Sélection de la métrique
+            
+            # Section Métrique
             html.Div(
                 className="sidebar-section",
                 children=[
-                    html.Label("Sélectionnez une métrique :", className="sidebar-label"),
+                    html.Label(
+                        [html.I(className="fas fa-chart-bar"), " Sélectionnez une métrique :"],
+                        className="sidebar-label"
+                    ),
                     dcc.RadioItems(
                         id='map-metric',
                         options=[
@@ -49,11 +50,14 @@ def sidebar(theme, city_options):
                 ],
             ),
 
-            # Sélection du niveau géographique
+            # Section Géographique
             html.Div(
                 className="sidebar-section",
                 children=[
-                    html.Label("Niveau géographique :", className="sidebar-label"),
+                    html.Label(
+                        [html.I(className="fas fa-globe"), " Niveau géographique :"],
+                        className="sidebar-label"
+                    ),
                     dcc.RadioItems(
                         id='geo-level',
                         options=[
@@ -68,7 +72,7 @@ def sidebar(theme, city_options):
                 ],
             ),
 
-            # Switch Light/Dark Mode
+            # Switch Light/Dark
             html.Div(
                 className="theme-switch-container",
                 children=[
