@@ -124,17 +124,12 @@ classDiagram
     }
     class Assets {
         -style.css
-        -tooltip.js
     }
     class Data {
         -raw.csv
         -cleaneddata.csv
         -departements.geojson
         -regions.geojson
-    }
-    class Pages {
-        +about.py
-        +render_about_page()
     }
 
     Main --> Dashboard : "Initializes"
@@ -149,7 +144,6 @@ classDiagram
     Utils --> DataLoader : "Loads data"
     Utils --> CleanData : "Cleans data"
     Utils --> Figures : "Generates charts"
-    Dashboard --> Pages : "Adds additional pages"
     Utils --> Data : "Accesses raw and cleaned data"
     Layout --> Assets : "Applies styles"
 ```
