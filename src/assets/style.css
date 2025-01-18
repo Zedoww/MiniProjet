@@ -13,16 +13,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Titres */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600; /* Gras pour les titres */
-}
-
-/* Textes spécifiques */
-.sidebar-label, .radio-label, .theme-label {
-  font-weight: 400; /* Texte régulier */
-  font-size: 14px;
-}
 
 .dropdown-light, .dropdown-dark {
   font-size: 14px;
@@ -44,18 +34,65 @@ button, input, select {
 /* === SIDEBAR STYLES === */
 .sidebar {
   width: 250px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   background-color: #FFFFFF;
   border-radius: 10px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ajout d'ombre par défaut */
   height: 100%; /* Prend toute la hauteur de la page */
   justify-content: space-between; /* Place le contenu en haut et en bas */
+  padding: 25px 20px; /* Ajout d'espace interne */
+  gap: 25px; /* Plus d'espace entre les sections */
+  border-radius: 0 10px 10px 0; /* Suppression des arrondis à gauche */
 
 }
+.sidebar-section > .sidebar-label {
+  text-align: center; /* Centre uniquement le texte */
+  display: block;
+  width: 100%; /* S'assure que le texte occupe toute la largeur */
+  font-size: 16px; /* Taille de la police du titre */
+  margin-bottom: 10px; /* Ajoute un espacement sous le titre */
+}
+
+.sidebar-title {
+  font-size: 48px; /* Agrandissement du texte */
+  font-weight: 1000; /* Texte en gras maximum */
+  color: var(--primary-color); /* Couleur principale */
+  margin-bottom: 20px; /* Espacement en bas */
+  text-align: center; /* Centrage du texte */
+  text-transform: uppercase; /* Mettre le texte en majuscules */
+  letter-spacing: 2px; /* Espacement des lettres pour un effet élégant */
+}
+
+.sidebar-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Espacement des lettres */
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 20px; /* Ajout d'espace interne au bas des sections */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Ligne plus subtile */
+  margin-bottom: 15px; /* Espacement entre les sections */
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+.sidebar-section:last-child {
+  border-bottom: none; /* Pas de bordure pour la dernière section */
+  margin-bottom: 0; /* Pas d'espacement en bas */
+}
+
 
 .sidebar:hover {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Ombre au survol */
@@ -69,14 +106,6 @@ button, input, select {
 .sidebar-dark {
   background: linear-gradient(135deg, #202020, #181818);
   color: #E0E0E0;
-}
-
-.sidebar-title {
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 10px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-section {
@@ -197,23 +226,68 @@ button, input, select {
   justify-content: flex-start;
   padding: 10px 15px;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 400; /* Retirer le gras pour un style plus léger */
   border-radius: 8px;
   cursor: pointer;
   background-color: transparent;
   transition: all 0.3s ease-in-out;
+  color: var(--text-color); /* Couleur du texte normale */
 }
 
+/* Survol */
 .radio-label:hover {
   background-color: #4A90E2; /* Couleur au survol */
   color: #FFFFFF; /* Texte blanc au survol */
 }
 
-.radio-label.active {
-  background-color: #4A90E2; /* Couleur de l'option sélectionnée */
-  color: #FFFFFF; /* Texte blanc */
+/* Bouton actif */
+.radio-input:checked + .radio-label {
+  background-color: #4A90E2; /* Fond bleu pour le bouton sélectionné */
+  color: #FFFFFF; /* Texte blanc pour le bouton sélectionné */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+/* Effet de hover si déjà actif */
+.radio-input:checked + .radio-label:hover {
+  background-color: #357ABD; /* Couleur légèrement différente au survol */
+}
+
+/* Mode clair */
+.light-theme .radio-label {
+  color: #333333; /* Texte sombre en mode light */
+}
+
+.light-theme .radio-label:hover {
+  background-color: #E0E0E0; /* Gris clair au survol */
+  color: #000000; /* Texte noir */
+}
+
+.light-theme .radio-input:checked + .radio-label {
+  background-color: #4A90E2;
+  color: #FFFFFF;
+}
+
+/* Mode sombre */
+.dark-theme .radio-label {
+  color: #E0E0E0; /* Texte clair en mode dark */
+}
+
+.dark-theme .radio-label:hover {
+  background-color: #4A90E2;
+  color: #FFFFFF;
+}
+
+.dark-theme .radio-input:checked + .radio-label {
+  background-color: #4A90E2;
+  color: #FFFFFF;
+}
+
+/* Cache les cercles radio natifs */
+.radio-input {
+  display: none;
+}
+
+
 
 /* Mode Light */
 .light-theme .radio-label {

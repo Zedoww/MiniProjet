@@ -7,14 +7,14 @@ def sidebar(theme, city_options):
         className=f"sidebar {theme_class}",
         children=[
             # Titre
-            html.H2("Menu", className="sidebar-title"),
+            html.H2("MENU", className="sidebar-title"),
             
             # Section Ville
             html.Div(
                 className="sidebar-section",
                 children=[
                     html.Label(
-                        [html.I(className="fas fa-map-marker-alt"), " Ville :"],
+                        [html.I(className="fas fa-map-marker-alt"), " Ville"],
                         className="sidebar-label"
                     ),
                     dcc.Dropdown(
@@ -33,7 +33,7 @@ def sidebar(theme, city_options):
                 className="sidebar-section",
                 children=[
                     html.Label(
-                        [html.I(className="fas fa-chart-bar"), " Sélectionnez une métrique :"],
+                        [html.I(className="fas fa-chart-bar"), " Métrique"],
                         className="sidebar-label"
                     ),
                     dcc.RadioItems(
@@ -55,7 +55,7 @@ def sidebar(theme, city_options):
                 className="sidebar-section",
                 children=[
                     html.Label(
-                        [html.I(className="fas fa-globe"), " Niveau géographique :"],
+                        [html.I(className="fas fa-globe"), " Niveau géographique"],
                         className="sidebar-label"
                     ),
                     dcc.RadioItems(
