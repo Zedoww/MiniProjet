@@ -19,7 +19,7 @@ dark_theme = {
     'secondary_text': '#B0B0B0',
     'grid_color': '#383838',
     'box_shadow': '0px 4px 12px rgba(0,0,0,0.4)',
-    'header_bg': '#202020',#181818
+    'header_bg': '#202020',
     'emoji_color': '#FFFFFF',
     'map_text_color': '#FFFFFF'
 }
