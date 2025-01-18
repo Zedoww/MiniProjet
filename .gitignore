@@ -1,0 +1,22 @@
+# Python
+*.pyc
+__pycache__/
+
+# MacOS
+.DS_Store
+__MACOSX/
+
+# Cache and temporary files
+*.log
+*.tmp
+*.bak
+
+# Data directories (remove only raw and cleaned)
+data/raw/
+data/cleaned/
+
+# IDE configurations
+.vscode/
+
+# Ruff cache
+src/.ruff_cache/
