@@ -11,10 +11,6 @@ __MACOSX/
 *.tmp
 *.bak
 
-# Data directories (remove only raw and cleaned)
-data/raw/
-data/cleaned/
-
 # IDE configurations
 .vscode/
 
