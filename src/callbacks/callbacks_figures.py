@@ -1,7 +1,6 @@
 from dash.dependencies import Input, Output, State
 from dash import callback_context
 from datetime import date
-import pandas as pd
 from ..utils.figures import (
     create_temperature_figure,
     create_precipitation_bar,

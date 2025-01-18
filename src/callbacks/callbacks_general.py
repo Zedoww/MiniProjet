@@ -1,5 +1,4 @@
 from dash.dependencies import Input, Output, State
-from src.layout.themes import light_theme, dark_theme
 
 def register_general_callbacks(app):
     # Callback pour basculer entre les thèmes

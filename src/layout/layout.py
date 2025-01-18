@@ -1,9 +1,7 @@
 from dash import html, dcc
-from .themes import light_theme, dark_theme
 from .sidebar import sidebar
 from .kpi_cards import kpi_cards
 import pandas as pd
-from datetime import date
 import locale
 import plotly.io as pio
 

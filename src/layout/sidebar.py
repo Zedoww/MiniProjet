@@ -1,4 +1,4 @@
-from dash import html, dcc, callback, Input, Output
+from dash import html, dcc
 
 def sidebar(theme, city_options):
     theme_class = 'sidebar-dark' if theme['name'] == 'dark' else 'sidebar-light'
